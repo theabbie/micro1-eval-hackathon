@@ -1,0 +1,13 @@
+{
+  "run": "main-20261030",
+  "backend": "claude-cli",
+  "models": [
+    "claude-opus-5-5",
+    "claude-sonnet-5-5",
+    "claude-haiku-5-5"
+  ],
+  "trials": 3,
+  "effort": "medium",
+  "profile": "spec",
+  "started_utc": "2026-10-30T11:36:03.507715+00:00"
+}

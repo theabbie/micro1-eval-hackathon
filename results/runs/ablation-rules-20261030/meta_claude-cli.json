@@ -1,0 +1,11 @@
+{
+  "run": "ablation-rules-20261030",
+  "backend": "claude-cli",
+  "models": [
+    "claude-haiku-5-5"
+  ],
+  "trials": 2,
+  "effort": "medium",
+  "profile": "rules",
+  "started_utc": "2026-10-30T12:08:34.171851+00:00"
+}

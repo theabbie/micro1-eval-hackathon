@@ -1,0 +1,334 @@
+{
+  "id": "T03",
+  "title": "Medication reconciliation for a single visit day",
+  "scenario": "During medication reconciliation for a clinic visit on 2024-06-15, an app queries MedicationStatement to find what the patient was taking around that day. Statements have open-ended periods, periods with only an end, day- and month-precision bounds, UTC instants and one statement with no effective value.",
+  "server_timezone": "America/New_York",
+  "why_hard": "Period end dates at day precision cover the whole end day (end '2024-06-15' reaches 2024-06-16T04:00Z), a missing start is -infinity and a missing end is +infinity, ge+le together mean 'overlaps' while eq means 'contained', sa/eb need strict separation, and :missing applies only to the effective value. A minute-precision eq search contains only values that fit inside that minute.",
+  "resources": [
+    {
+      "resourceType": "MedicationStatement",
+      "id": "m-01",
+      "status": "active",
+      "medicationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "860975",
+            "display": "metformin hydrochloride 500 MG Extended Release Oral Tablet"
+          }
+        ]
+      },
+      "effectivePeriod": {
+        "start": "2024-01-10"
+      }
+    },
+    {
+      "resourceType": "MedicationStatement",
+      "id": "m-02",
+      "status": "completed",
+      "medicationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "308182",
+            "display": "amoxicillin 250 MG Oral Capsule"
+          }
+        ]
+      },
+      "effectivePeriod": {
+        "start": "2024-06-15",
+        "end": "2024-06-15"
+      }
+    },
+    {
+      "resourceType": "MedicationStatement",
+      "id": "m-03",
+      "status": "completed",
+      "medicationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "197361",
+            "display": "amlodipine 5 MG Oral Tablet"
+          }
+        ]
+      },
+      "effectivePeriod": {
+        "start": "2024-05-01",
+        "end": "2024-06-14"
+      }
+    },
+    {
+      "resourceType": "MedicationStatement",
+      "id": "m-04",
+      "status": "completed",
+      "medicationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "314076",
+            "display": "lisinopril 10 MG Oral Tablet"
+          }
+        ]
+      },
+      "effectivePeriod": {
+        "start": "2024-05-01",
+        "end": "2024-06-15"
+      }
+    },
+    {
+      "resourceType": "MedicationStatement",
+      "id": "m-05",
+      "status": "active",
+      "medicationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "617314",
+            "display": "atorvastatin 10 MG Oral Tablet"
+          }
+        ]
+      },
+      "effectivePeriod": {
+        "end": "2024-06-30"
+      }
+    },
+    {
+      "resourceType": "MedicationStatement",
+      "id": "m-06",
+      "status": "active",
+      "medicationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "198440",
+            "display": "acetaminophen 500 MG Oral Tablet"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-06-16T02:00:00Z"
+    },
+    {
+      "resourceType": "MedicationStatement",
+      "id": "m-07",
+      "status": "active",
+      "medicationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "310965",
+            "display": "ibuprofen 200 MG Oral Tablet"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-06-15T02:00:00Z"
+    },
+    {
+      "resourceType": "MedicationStatement",
+      "id": "m-08",
+      "status": "intended",
+      "medicationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "849574",
+            "display": "naproxen sodium 220 MG Oral Tablet"
+          }
+        ]
+      },
+      "effectivePeriod": {
+        "start": "2024-06-16"
+      }
+    },
+    {
+      "resourceType": "MedicationStatement",
+      "id": "m-09",
+      "status": "stopped",
+      "medicationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "312961",
+            "display": "simvastatin 20 MG Oral Tablet"
+          }
+        ]
+      },
+      "effectivePeriod": {
+        "start": "2024-06",
+        "end": "2024-06-20"
+      }
+    },
+    {
+      "resourceType": "MedicationStatement",
+      "id": "m-10",
+      "status": "entered-in-error",
+      "medicationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "197884",
+            "display": "lisinopril 40 MG Oral Tablet"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-06-15T08:00:00-04:00"
+    },
+    {
+      "resourceType": "MedicationStatement",
+      "id": "m-11",
+      "status": "active",
+      "medicationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "311036",
+            "display": "insulin lispro 100 UNT/ML Injectable Solution"
+          }
+        ]
+      }
+    },
+    {
+      "resourceType": "MedicationStatement",
+      "id": "m-12",
+      "status": "intended",
+      "medicationCodeableConcept": {
+        "coding": [
+          {
+            "system": "http://www.nlm.nih.gov/research/umls/rxnorm",
+            "code": "866924",
+            "display": "metoprolol tartrate 25 MG Oral Tablet"
+          }
+        ]
+      },
+      "effectivePeriod": {
+        "start": "2024-06-15T21:00:00-07:00"
+      }
+    }
+  ],
+  "queries": [
+    {
+      "id": "q1",
+      "query": "MedicationStatement?effective=ge2024-06-15&effective=le2024-06-15",
+      "expected": [
+        "MedicationStatement/m-01",
+        "MedicationStatement/m-02",
+        "MedicationStatement/m-04",
+        "MedicationStatement/m-05",
+        "MedicationStatement/m-06",
+        "MedicationStatement/m-09",
+        "MedicationStatement/m-10"
+      ],
+      "rationale": "Overlaps the local day [06-15T04:00Z, 06-16T04:00Z). 03 ends at 06-15T04:00Z (no overlap); 04 ends at 06-16T04:00Z (overlaps); 06 is 22:00 EDT Jun 15 (in); 07 is 22:00 EDT Jun 14 (out); 12 starts exactly at 06-16T04:00Z (out); 11 has no value."
+    },
+    {
+      "id": "q2",
+      "query": "MedicationStatement?effective=2024-06-15",
+      "expected": [
+        "MedicationStatement/m-02",
+        "MedicationStatement/m-06",
+        "MedicationStatement/m-10"
+      ],
+      "rationale": "Fully contained in the local day."
+    },
+    {
+      "id": "q3",
+      "query": "MedicationStatement?effective=eb2024-06-15",
+      "expected": [
+        "MedicationStatement/m-03",
+        "MedicationStatement/m-07"
+      ],
+      "rationale": "Ends at or before 06-15T04:00Z. 04 (end '2024-06-15') does not end before the day."
+    },
+    {
+      "id": "q4",
+      "query": "MedicationStatement?effective=sa2024-06-15",
+      "expected": [
+        "MedicationStatement/m-08",
+        "MedicationStatement/m-12"
+      ],
+      "rationale": "Starts at or after 06-16T04:00Z. 12 starts 21:00 PDT = 00:00 EDT Jun 16."
+    },
+    {
+      "id": "q5",
+      "query": "MedicationStatement?effective=ge2024-06-15&effective=le2024-06-15&status=active",
+      "expected": [
+        "MedicationStatement/m-01",
+        "MedicationStatement/m-05",
+        "MedicationStatement/m-06"
+      ],
+      "rationale": "q1 restricted to status=active."
+    },
+    {
+      "id": "q6",
+      "query": "MedicationStatement?effective:missing=true",
+      "expected": [
+        "MedicationStatement/m-11"
+      ],
+      "rationale": "Only m-11 has no effective[x]."
+    },
+    {
+      "id": "q7",
+      "query": "MedicationStatement?effective=2024-06-15T08:00-04:00",
+      "expected": [
+        "MedicationStatement/m-10"
+      ],
+      "rationale": "eq with a minute-precision search value: the target must lie inside [12:00Z, 12:01Z). Only m-10 (08:00:00 EDT, one second) does; periods that cover 08:00 are not contained in the minute."
+    },
+    {
+      "id": "q8",
+      "query": "MedicationStatement?effective=ne2024-06-15T08:00-04:00",
+      "expected": [
+        "MedicationStatement/m-01",
+        "MedicationStatement/m-02",
+        "MedicationStatement/m-03",
+        "MedicationStatement/m-04",
+        "MedicationStatement/m-05",
+        "MedicationStatement/m-06",
+        "MedicationStatement/m-07",
+        "MedicationStatement/m-08",
+        "MedicationStatement/m-09",
+        "MedicationStatement/m-12"
+      ],
+      "rationale": "Every indexed statement except m-10; m-11 has no value so never matches ne."
+    }
+  ],
+  "traps": {
+    "MedicationStatement/m-01": [
+      "period-open-end"
+    ],
+    "MedicationStatement/m-02": [
+      "period-day-precision-end"
+    ],
+    "MedicationStatement/m-03": [
+      "period-day-precision-end"
+    ],
+    "MedicationStatement/m-04": [
+      "period-day-precision-end"
+    ],
+    "MedicationStatement/m-05": [
+      "period-open-start"
+    ],
+    "MedicationStatement/m-06": [
+      "tz-local-day-boundary"
+    ],
+    "MedicationStatement/m-07": [
+      "tz-local-day-boundary"
+    ],
+    "MedicationStatement/m-08": [
+      "period-open-end"
+    ],
+    "MedicationStatement/m-09": [
+      "partial-date-interval"
+    ],
+    "MedicationStatement/m-10": [
+      "status-filter-absent"
+    ],
+    "MedicationStatement/m-11": [
+      "missing-value"
+    ],
+    "MedicationStatement/m-12": [
+      "tz-foreign-offset",
+      "sa-eb-touching-boundary"
+    ]
+  }
+}

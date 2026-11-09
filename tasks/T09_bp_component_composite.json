@@ -1,0 +1,726 @@
+{
+ "id": "T09",
+ "title": "Hypertension registry: component vs composite blood-pressure search",
+ "scenario": "A hypertension registry flags patients whose blood pressure is above goal (systolic >= 140 or diastolic >= 90 mmHg). Blood pressure arrives as LOINC 85354-9 panels with systolic and diastolic components; one device sent a diastolic component with a dataAbsentReason, one device reports decimals, one interface sends a standalone systolic Observation, and a heart-rate Observation sits alongside. You are checking which resources each query the registry issues will return.",
+ "server_timezone": "America/New_York",
+ "why_hard": "component-code and component-value-quantity are separate parameters, so combining them with & matches when the code is on one component and the value on another (FHIR R4 search: parameters are evaluated independently; composite parameters exist to join them). component-code-value-quantity binds code and value to the SAME component. Two composite parameters joined by & may be satisfied by different components. value-quantity looks at Observation.value only, never components; the composite parameters look at components only (or Observation.code+value for code-value-quantity). eq on '140' is the range [139.5, 140.5).",
+ "resources": [
+  {
+   "resourceType": "Observation",
+   "id": "bp-01",
+   "status": "final",
+   "category": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+       "code": "vital-signs"
+      }
+     ]
+    }
+   ],
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "85354-9",
+      "display": "Blood pressure panel with all children optional"
+     }
+    ]
+   },
+   "effectiveDateTime": "2024-05-01T09:00:00-04:00",
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8480-6",
+        "display": "Systolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 150,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    },
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8462-4",
+        "display": "Diastolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 80,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "id": "bp-02",
+   "status": "final",
+   "category": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+       "code": "vital-signs"
+      }
+     ]
+    }
+   ],
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "85354-9",
+      "display": "Blood pressure panel with all children optional"
+     }
+    ]
+   },
+   "effectiveDateTime": "2024-05-02T09:00:00-04:00",
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8480-6",
+        "display": "Systolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 130,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    },
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8462-4",
+        "display": "Diastolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 95,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "id": "bp-03",
+   "status": "final",
+   "category": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+       "code": "vital-signs"
+      }
+     ]
+    }
+   ],
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "85354-9",
+      "display": "Blood pressure panel with all children optional"
+     }
+    ]
+   },
+   "effectiveDateTime": "2024-05-03T09:00:00-04:00",
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8480-6",
+        "display": "Systolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 120,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    },
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8462-4",
+        "display": "Diastolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 80,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "id": "bp-04",
+   "status": "final",
+   "category": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+       "code": "vital-signs"
+      }
+     ]
+    }
+   ],
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "85354-9",
+      "display": "Blood pressure panel with all children optional"
+     }
+    ]
+   },
+   "effectiveDateTime": "2024-05-04T09:00:00-04:00",
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8480-6",
+        "display": "Systolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 145,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    },
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8462-4",
+        "display": "Diastolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 92,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "id": "bp-05",
+   "status": "final",
+   "category": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+       "code": "vital-signs"
+      }
+     ]
+    }
+   ],
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "85354-9",
+      "display": "Blood pressure panel with all children optional"
+     }
+    ]
+   },
+   "effectiveDateTime": "2024-05-05T09:00:00-04:00",
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8480-6",
+        "display": "Systolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 135,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    },
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8462-4",
+        "display": "Diastolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 88,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "id": "bp-06",
+   "status": "final",
+   "category": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+       "code": "vital-signs"
+      }
+     ]
+    }
+   ],
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "85354-9",
+      "display": "Blood pressure panel with all children optional"
+     }
+    ]
+   },
+   "effectiveDateTime": "2024-05-06T09:00:00-04:00",
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8480-6",
+        "display": "Systolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 160,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    },
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8462-4",
+        "display": "Diastolic blood pressure"
+       }
+      ]
+     },
+     "dataAbsentReason": {
+      "coding": [
+       {
+        "system": "http://terminology.hl7.org/CodeSystem/data-absent-reason",
+        "code": "error"
+       }
+      ]
+     }
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "id": "bp-07",
+   "status": "final",
+   "category": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+       "code": "vital-signs"
+      }
+     ]
+    }
+   ],
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "85354-9",
+      "display": "Blood pressure panel with all children optional"
+     }
+    ]
+   },
+   "effectiveDateTime": "2024-05-07T09:00:00-04:00",
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8480-6",
+        "display": "Systolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 140,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    },
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8462-4",
+        "display": "Diastolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 90,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "id": "bp-08",
+   "status": "entered-in-error",
+   "category": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+       "code": "vital-signs"
+      }
+     ]
+    }
+   ],
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "85354-9",
+      "display": "Blood pressure panel with all children optional"
+     }
+    ]
+   },
+   "effectiveDateTime": "2024-05-08T09:00:00-04:00",
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8480-6",
+        "display": "Systolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 128,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    },
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8462-4",
+        "display": "Diastolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 91,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "id": "bp-09",
+   "status": "final",
+   "category": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+       "code": "vital-signs"
+      }
+     ]
+    }
+   ],
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "85354-9",
+      "display": "Blood pressure panel with all children optional"
+     }
+    ]
+   },
+   "effectiveDateTime": "2024-05-09T09:00:00-04:00",
+   "component": [
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8480-6",
+        "display": "Systolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 139.6,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    },
+    {
+     "code": {
+      "coding": [
+       {
+        "system": "http://loinc.org",
+        "code": "8462-4",
+        "display": "Diastolic blood pressure"
+       }
+      ]
+     },
+     "valueQuantity": {
+      "value": 89.6,
+      "unit": "mmHg",
+      "system": "http://unitsofmeasure.org",
+      "code": "mm[Hg]"
+     }
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "id": "hr-01",
+   "status": "final",
+   "category": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+       "code": "vital-signs"
+      }
+     ]
+    }
+   ],
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "8867-4",
+      "display": "Heart rate"
+     }
+    ]
+   },
+   "effectiveDateTime": "2024-05-01T09:00:00-04:00",
+   "valueQuantity": {
+    "value": 98,
+    "unit": "beats/minute",
+    "system": "http://unitsofmeasure.org",
+    "code": "/min"
+   }
+  },
+  {
+   "resourceType": "Observation",
+   "id": "sbp-01",
+   "status": "final",
+   "category": [
+    {
+     "coding": [
+      {
+       "system": "http://terminology.hl7.org/CodeSystem/observation-category",
+       "code": "vital-signs"
+      }
+     ]
+    }
+   ],
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "8480-6",
+      "display": "Systolic blood pressure"
+     }
+    ]
+   },
+   "effectiveDateTime": "2024-05-10T09:00:00-04:00",
+   "valueQuantity": {
+    "value": 152,
+    "unit": "mmHg",
+    "system": "http://unitsofmeasure.org",
+    "code": "mm[Hg]"
+   }
+  }
+ ],
+ "queries": [
+  {
+   "id": "q1",
+   "query": "Observation?component-code=http://loinc.org|8462-4&component-value-quantity=ge90",
+   "expected": [
+    "Observation/bp-01",
+    "Observation/bp-02",
+    "Observation/bp-03",
+    "Observation/bp-04",
+    "Observation/bp-05",
+    "Observation/bp-06",
+    "Observation/bp-07",
+    "Observation/bp-08",
+    "Observation/bp-09"
+   ],
+   "rationale": "Independent parameters: any panel with a diastolic component code AND any component value >= 90 (every systolic qualifies). bp-06's diastolic component has a code but no value; its systolic 160 satisfies the value parameter. hr-01 and sbp-01 have no components."
+  },
+  {
+   "id": "q2",
+   "query": "Observation?component-code-value-quantity=http://loinc.org|8462-4$ge90",
+   "expected": [
+    "Observation/bp-02",
+    "Observation/bp-04",
+    "Observation/bp-07",
+    "Observation/bp-08"
+   ],
+   "rationale": "Same component: diastolic >= 90. 89.6 is not >= 90 (exact comparison)."
+  },
+  {
+   "id": "q3",
+   "query": "Observation?component-code-value-quantity=http://loinc.org|8480-6$ge140,http://loinc.org|8462-4$ge90&status=final",
+   "expected": [
+    "Observation/bp-01",
+    "Observation/bp-02",
+    "Observation/bp-04",
+    "Observation/bp-06",
+    "Observation/bp-07"
+   ],
+   "rationale": "OR of the two composites, final only. The standalone systolic sbp-01 (152) has no components, so the component composite does not see it."
+  },
+  {
+   "id": "q4",
+   "query": "Observation?component-code-value-quantity=http://loinc.org|8480-6$ge140&component-code-value-quantity=http://loinc.org|8462-4$ge90",
+   "expected": [
+    "Observation/bp-04",
+    "Observation/bp-07"
+   ],
+   "rationale": "AND of two composites: both systolic >= 140 and diastolic >= 90."
+  },
+  {
+   "id": "q5",
+   "query": "Observation?component-code-value-quantity=http://loinc.org|8480-6$140",
+   "expected": [
+    "Observation/bp-07",
+    "Observation/bp-09"
+   ],
+   "rationale": "eq on '140' = [139.5, 140.5): 140 and 139.6."
+  },
+  {
+   "id": "q6",
+   "query": "Observation?code-value-quantity=http://loinc.org|8480-6$ge140",
+   "expected": [
+    "Observation/sbp-01"
+   ],
+   "rationale": "code-value-quantity joins Observation.code with Observation.value, so only the standalone systolic Observation can match; panel components are not searched."
+  },
+  {
+   "id": "q7",
+   "query": "Observation?value-quantity=gt90",
+   "expected": [
+    "Observation/hr-01",
+    "Observation/sbp-01"
+   ],
+   "rationale": "value-quantity searches Observation.valueQuantity only: heart rate 98 and the standalone systolic 152. Panels have no valueQuantity."
+  }
+ ],
+ "traps": {
+  "Observation/bp-01": [
+   "component-independence"
+  ],
+  "Observation/bp-03": [
+   "component-independence"
+  ],
+  "Observation/bp-05": [
+   "component-independence"
+  ],
+  "Observation/bp-06": [
+   "component-data-absent",
+   "component-independence"
+  ],
+  "Observation/bp-08": [
+   "status-filter"
+  ],
+  "Observation/bp-09": [
+   "quantity-precision-range",
+   "exact-comparison-boundary"
+  ],
+  "Observation/hr-01": [
+   "value-vs-component"
+  ],
+  "Observation/sbp-01": [
+   "value-vs-component"
+  ]
+ }
+}

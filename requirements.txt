@@ -1,0 +1,5 @@
+# Python >= 3.10. Versions used for the recorded run:
+pytest==9.2.0
+tzdata==2026.6   # IANA zones for platforms without system tz data
+anthropic==2.3.0 # only for --backend anthropic-api
+openai==3.41.0   # only for --backend openai-api

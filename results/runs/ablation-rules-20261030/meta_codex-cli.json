@@ -1,0 +1,11 @@
+{
+  "run": "ablation-rules-20261030",
+  "backend": "codex-cli",
+  "models": [
+    "gpt-5.6-luna"
+  ],
+  "trials": 2,
+  "effort": "medium",
+  "profile": "rules",
+  "started_utc": "2026-10-30T12:08:34.175888+00:00"
+}

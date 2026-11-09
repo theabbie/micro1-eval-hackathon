@@ -1,0 +1,310 @@
+{
+  "id": "T02",
+  "title": "Lab results on a date of service that contains the DST fall-back",
+  "scenario": "A clinician asks for all chemistry results drawn on the date of service 2024-11-03 (the day US clocks fall back from EDT to EST at 02:00 local). Results come from interfaces that send UTC instants, local offsets, a foreign offset, an offset-less local time, a day-only date, a month-only date and one timed collection period. You are checking which resources each query returns.",
+  "server_timezone": "America/New_York",
+  "why_hard": "The local day 2024-11-03 is 25 hours long: [2024-11-03T04:00Z, 2024-11-04T05:00Z). Using a single fixed offset for the day gets one end wrong. 01:00-01:59 local occurs twice (-04:00 then -05:00). Search values at minute precision are one-minute intervals; target instants at second precision are one-second intervals.",
+  "resources": [
+    {
+      "resourceType": "Observation",
+      "id": "k-01",
+      "status": "final",
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "2823-3",
+            "display": "Potassium [Moles/volume] in Serum or Plasma"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-11-03T04:30:00Z"
+    },
+    {
+      "resourceType": "Observation",
+      "id": "k-02",
+      "status": "final",
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "2823-3"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-11-03T03:30:00Z"
+    },
+    {
+      "resourceType": "Observation",
+      "id": "k-03",
+      "status": "final",
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "2823-3"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-11-04T04:30:00Z"
+    },
+    {
+      "resourceType": "Observation",
+      "id": "k-04",
+      "status": "final",
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "2823-3"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-11-04T05:00:00Z"
+    },
+    {
+      "resourceType": "Observation",
+      "id": "k-05",
+      "status": "final",
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "2951-2",
+            "display": "Sodium [Moles/volume] in Serum or Plasma"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-11-03T01:30:00-04:00"
+    },
+    {
+      "resourceType": "Observation",
+      "id": "k-06",
+      "status": "final",
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "2951-2"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-11-03T01:30:00-05:00"
+    },
+    {
+      "resourceType": "Observation",
+      "id": "k-07",
+      "status": "final",
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "2160-0",
+            "display": "Creatinine [Mass/volume] in Serum or Plasma"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-11-03T12:00:00+05:30"
+    },
+    {
+      "resourceType": "Observation",
+      "id": "k-08",
+      "status": "final",
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "2160-0"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-11-03"
+    },
+    {
+      "resourceType": "Observation",
+      "id": "k-09",
+      "status": "final",
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "2160-0"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-11-03T23:45:00"
+    },
+    {
+      "resourceType": "Observation",
+      "id": "k-10",
+      "status": "final",
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "2345-7",
+            "display": "Glucose [Mass/volume] in Serum or Plasma"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-11"
+    },
+    {
+      "resourceType": "Observation",
+      "id": "k-11",
+      "status": "final",
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "2829-0",
+            "display": "Potassium [Moles/time] in 24 hour Urine"
+          }
+        ]
+      },
+      "effectivePeriod": {
+        "start": "2024-11-02T22:00:00-04:00",
+        "end": "2024-11-03T06:00:00-05:00"
+      }
+    },
+    {
+      "resourceType": "Observation",
+      "id": "k-12",
+      "status": "final",
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "2345-7"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-11-03T01:00:00-04:00"
+    },
+    {
+      "resourceType": "Observation",
+      "id": "k-13",
+      "status": "final",
+      "code": {
+        "coding": [
+          {
+            "system": "http://loinc.org",
+            "code": "2345-7"
+          }
+        ]
+      },
+      "effectiveDateTime": "2024-11-03T01:00:00-05:00"
+    }
+  ],
+  "queries": [
+    {
+      "id": "q1",
+      "query": "Observation?date=2024-11-03",
+      "expected": [
+        "Observation/k-01",
+        "Observation/k-03",
+        "Observation/k-05",
+        "Observation/k-06",
+        "Observation/k-07",
+        "Observation/k-08",
+        "Observation/k-09",
+        "Observation/k-12",
+        "Observation/k-13"
+      ],
+      "rationale": "Local day is [04:00Z Nov 3, 05:00Z Nov 4). 01 = 00:30 EDT (in); 02 = 23:30 EDT Nov 2 (out); 03 = 23:30 EST Nov 3 (in - fixed -04:00 would wrongly put it on Nov 4); 04 = 00:00 EST Nov 4 (out); 07 = 06:30Z (in); 09 offset-less 23:45 local EST (in); 10 month not contained; 11 starts on Nov 2."
+    },
+    {
+      "id": "q2",
+      "query": "Observation?date=ge2024-11-03T01:00-04:00&date=lt2024-11-03T01:00-05:00",
+      "expected": [
+        "Observation/k-05",
+        "Observation/k-08",
+        "Observation/k-10",
+        "Observation/k-11",
+        "Observation/k-12"
+      ],
+      "rationale": "The 'first' 01:00 hour: ge needs T to reach >= 05:00Z, lt needs T to start < 06:00Z. 12 (05:00:00Z) is in; 13 (06:00:00Z) fails lt; 06 (06:30Z) fails lt; 01 (04:30Z) fails ge. Wide targets (day 08, month 10, period 11) overlap both conditions."
+    },
+    {
+      "id": "q3",
+      "query": "Observation?date=sa2024-11-03",
+      "expected": [
+        "Observation/k-04"
+      ],
+      "rationale": "Starts at or after 05:00Z Nov 4. 03 (04:30Z) is still Nov 3 local."
+    },
+    {
+      "id": "q4",
+      "query": "Observation?date=eb2024-11-03",
+      "expected": [
+        "Observation/k-02"
+      ],
+      "rationale": "Ends at or before 04:00Z Nov 3. 11 ends at 11:00Z."
+    },
+    {
+      "id": "q5",
+      "query": "Observation?date=ne2024-11-03",
+      "expected": [
+        "Observation/k-02",
+        "Observation/k-04",
+        "Observation/k-10",
+        "Observation/k-11"
+      ],
+      "rationale": "Not fully contained in the day: the two out-of-day instants, the month value, and the period that starts on Nov 2."
+    },
+    {
+      "id": "q6",
+      "query": "Observation?date=2024-11-03T01:30-05:00",
+      "expected": [
+        "Observation/k-06",
+        "Observation/k-07"
+      ],
+      "rationale": "The minute [06:30Z, 06:31Z): k-06 (01:30 EST, the second 01:30) and k-07 (12:00+05:30 = 06:30Z). k-05 is the first 01:30 (05:30Z)."
+    }
+  ],
+  "traps": {
+    "Observation/k-01": [
+      "tz-local-day-boundary"
+    ],
+    "Observation/k-02": [
+      "tz-local-day-boundary"
+    ],
+    "Observation/k-03": [
+      "dst-day-length"
+    ],
+    "Observation/k-04": [
+      "dst-day-length"
+    ],
+    "Observation/k-05": [
+      "dst-repeated-hour"
+    ],
+    "Observation/k-06": [
+      "dst-repeated-hour"
+    ],
+    "Observation/k-07": [
+      "tz-foreign-offset",
+      "minute-precision-interval"
+    ],
+    "Observation/k-08": [
+      "partial-date-interval"
+    ],
+    "Observation/k-09": [
+      "tz-offsetless-local",
+      "dst-day-length"
+    ],
+    "Observation/k-10": [
+      "partial-date-interval"
+    ],
+    "Observation/k-11": [
+      "period-overlap"
+    ],
+    "Observation/k-12": [
+      "minute-precision-interval",
+      "dst-repeated-hour"
+    ],
+    "Observation/k-13": [
+      "minute-precision-interval",
+      "dst-repeated-hour"
+    ]
+  }
+}

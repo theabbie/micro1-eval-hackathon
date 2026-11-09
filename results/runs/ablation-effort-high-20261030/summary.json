@@ -1,0 +1,45 @@
+{
+  "run": "ablation-effort-high-20261030",
+  "models": {
+    "claude-opus-5-5": {
+      "backend": "claude-cli",
+      "effort": "high",
+      "profile": "spec",
+      "resolved_model": [
+        "claude-opus-5-5"
+      ],
+      "trials": 6,
+      "trials_per_task": 3,
+      "errors": 0,
+      "tool_attempt_trials": 0,
+      "task_pass_rate": 0.3333333333333333,
+      "mean_task_score": 0.9220779220779219,
+      "query_accuracy": 0.9259259259259259,
+      "pass_at_k": 1.0,
+      "pass_hat_k": 0.0,
+      "cost_usd_total": 0.3047,
+      "output_tokens_total": 14125,
+      "input_tokens_total": 31510,
+      "seconds_total": 226
+    }
+  },
+  "matrix": {
+    "claude-opus-5-5": {
+      "T09": "1/3",
+      "T10": "1/3"
+    }
+  },
+  "traps": {
+    "claude-opus-5-5": {
+      "component-independence": 2,
+      "string-contains": 2,
+      "identifier-type": 2,
+      "string-name-covers-prefix": 2
+    }
+  },
+  "fingerprints": {
+    "claude-opus-5-5": {
+      "(no single-rule variant)": 4
+    }
+  }
+}

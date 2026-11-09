@@ -1,0 +1,23 @@
+run ablation-rules-20261030: 22 trials to do (0 already done)
+gpt-5.6-luna         T01 t1   32.6s score=0.80 pass=False
+gpt-5.6-luna         T02 t2   34.7s score=0.33 pass=False
+gpt-5.6-luna         T01 t2   37.0s score=0.60 pass=False
+gpt-5.6-luna         T03 t1   39.1s score=1.00 pass=True
+gpt-5.6-luna         T04 t1   35.6s score=0.83 pass=False
+gpt-5.6-luna         T03 t2   42.3s score=0.50 pass=False
+gpt-5.6-luna         T02 t1   87.1s score=0.50 pass=False
+gpt-5.6-luna         T05 t1   28.6s score=0.60 pass=False
+gpt-5.6-luna         T04 t2   37.4s score=0.67 pass=False
+gpt-5.6-luna         T05 t2   40.8s score=0.60 pass=False
+gpt-5.6-luna         T06 t1   36.8s score=1.00 pass=True
+gpt-5.6-luna         T06 t2   38.7s score=0.50 pass=False
+gpt-5.6-luna         T07 t2   29.1s score=0.67 pass=False
+gpt-5.6-luna         T07 t1   38.7s score=1.00 pass=True
+gpt-5.6-luna         T09 t2   32.1s score=0.71 pass=False
+gpt-5.6-luna         T08 t1   57.6s score=1.00 pass=True
+gpt-5.6-luna         T09 t1   35.3s score=1.00 pass=True
+gpt-5.6-luna         T08 t2   51.1s score=1.00 pass=True
+gpt-5.6-luna         T10 t1   27.5s score=0.73 pass=False
+gpt-5.6-luna         T10 t2   26.7s score=0.73 pass=False
+gpt-5.6-luna         T11 t1   30.9s score=0.86 pass=False
+gpt-5.6-luna         T11 t2   34.6s score=1.00 pass=True

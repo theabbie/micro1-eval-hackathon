@@ -1,0 +1,12 @@
+{
+  "run": "calib-spec2",
+  "backend": "claude-cli",
+  "models": [
+    "claude-haiku-5-5",
+    "claude-opus-5-5"
+  ],
+  "trials": 1,
+  "effort": "medium",
+  "profile": "spec",
+  "started_utc": "2026-10-30T11:34:05.987805+00:00"
+}

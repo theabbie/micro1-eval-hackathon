@@ -1,0 +1,12 @@
+{
+  "run": "main-20261030",
+  "backend": "codex-cli",
+  "models": [
+    "gpt-6.1-sol",
+    "gpt-5.6-luna"
+  ],
+  "trials": 3,
+  "effort": "medium",
+  "profile": "spec",
+  "started_utc": "2026-10-30T11:36:03.514628+00:00"
+}

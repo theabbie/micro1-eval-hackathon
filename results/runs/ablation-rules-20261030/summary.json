@@ -1,0 +1,125 @@
+{
+  "run": "ablation-rules-20261030",
+  "models": {
+    "gpt-5.6-luna": {
+      "backend": "codex-cli",
+      "effort": "medium",
+      "profile": "rules",
+      "resolved_model": [
+        "gpt-5.6-luna"
+      ],
+      "trials": 22,
+      "trials_per_task": 2,
+      "errors": 0,
+      "tool_attempt_trials": 0,
+      "task_pass_rate": 0.3181818181818182,
+      "mean_task_score": 0.7557260920897285,
+      "query_accuracy": 0.7635135135135135,
+      "pass_at_k": 0.5454545454545454,
+      "pass_hat_k": 0.09090909090909091,
+      "cost_usd_total": null,
+      "output_tokens_total": 27941,
+      "input_tokens_total": 259366,
+      "seconds_total": 854
+    },
+    "claude-haiku-5-5": {
+      "backend": "claude-cli",
+      "effort": "medium",
+      "profile": "rules",
+      "resolved_model": [
+        "claude-haiku-5-5"
+      ],
+      "trials": 22,
+      "trials_per_task": 2,
+      "errors": 0,
+      "tool_attempt_trials": 0,
+      "task_pass_rate": 0.8181818181818182,
+      "mean_task_score": 0.9579889807162534,
+      "query_accuracy": 0.9594594594594594,
+      "pass_at_k": 0.9090909090909091,
+      "pass_hat_k": 0.7272727272727273,
+      "cost_usd_total": 0.0757,
+      "output_tokens_total": 116677,
+      "input_tokens_total": 109720,
+      "seconds_total": 827
+    }
+  },
+  "matrix": {
+    "gpt-5.6-luna": {
+      "T01": "0/2",
+      "T02": "0/2",
+      "T03": "1/2",
+      "T04": "0/2",
+      "T05": "0/2",
+      "T06": "1/2",
+      "T07": "1/2",
+      "T08": "2/2",
+      "T09": "1/2",
+      "T10": "0/2",
+      "T11": "1/2"
+    },
+    "claude-haiku-5-5": {
+      "T01": "2/2",
+      "T02": "0/2",
+      "T03": "2/2",
+      "T04": "2/2",
+      "T05": "2/2",
+      "T06": "2/2",
+      "T07": "1/2",
+      "T08": "2/2",
+      "T09": "2/2",
+      "T10": "1/2",
+      "T11": "2/2"
+    }
+  },
+  "traps": {
+    "gpt-5.6-luna": {
+      "tz-local-day-boundary": 13,
+      "dst-repeated-hour": 12,
+      "minute-precision-interval": 9,
+      "dst-day-length": 7,
+      "string-contains": 5,
+      "quantity-precision-range": 4,
+      "string-starts-with": 4,
+      "tz-foreign-offset": 3,
+      "partial-date-interval": 3,
+      "identifier-type": 3,
+      "string-name-covers-prefix": 3,
+      "string-family-parts": 3,
+      "identifier-system": 3,
+      "tz-offsetless-local": 2,
+      "exact-comparison-boundary": 2,
+      "token-case-sensitive": 2,
+      "component-independence": 2,
+      "token-any-coding": 1,
+      "missing-value": 1,
+      "string-not-indexed": 1,
+      "(untagged)": 1,
+      "status-filter": 1,
+      "has-independence": 1,
+      "status-filter-absent": 1
+    },
+    "claude-haiku-5-5": {
+      "dst-repeated-hour": 4,
+      "minute-precision-interval": 3,
+      "period-overlap": 2,
+      "partial-date-interval": 1,
+      "tz-foreign-offset": 1,
+      "unit-no-conversion": 1,
+      "quantity-unit-matching": 1,
+      "string-family-parts": 1,
+      "identifier-system": 1
+    }
+  },
+  "fingerprints": {
+    "gpt-5.6-luna": {
+      "(no single-rule variant)": 31,
+      "offsetless-as-UTC": 3,
+      "string-no-family-parts": 1
+    },
+    "claude-haiku-5-5": {
+      "(no single-rule variant)": 5,
+      "string-no-family-parts": 1
+    }
+  }
+}

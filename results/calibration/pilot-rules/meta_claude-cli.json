@@ -1,0 +1,10 @@
+{
+  "run": "pilot",
+  "backend": "claude-cli",
+  "models": [
+    "claude-haiku-5-5"
+  ],
+  "trials": 1,
+  "effort": "medium",
+  "started_utc": "2026-10-30T11:20:52.231490+00:00"
+}

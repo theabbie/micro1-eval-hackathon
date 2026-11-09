@@ -1,0 +1,48 @@
+{
+  "id": "T05",
+  "title": "Problem-list onset dates for a risk-adjustment review",
+  "scenario": "A risk-adjustment reviewer pulls Condition resources for a patient in Los Angeles to see which active problems began before 2020. Onset was recorded in every way R4 allows: dateTime at several precisions, Period, Age and free text. Some records came from a feed that uses a local clinical-status code system.",
+  "server_timezone": "America/Los_Angeles",
+  "why_hard": "onsetAge and onsetString are not indexed by onset-date (so :missing=true finds them), token matching is exact and case-sensitive with no subsumption (recurrence/relapse are not 'active' unless listed), :not includes resources that have no clinicalStatus at all, and UTC instants on Jan 1 can be Dec 31 local.",
+  "resources": [
+    {"resourceType": "Condition", "id": "c-01", "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]}, "code": {"coding": [{"system": "http://snomed.info/sct", "code": "44054006", "display": "Diabetes mellitus type 2"}]}, "onsetDateTime": "2018-03-02"},
+    {"resourceType": "Condition", "id": "c-02", "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "recurrence"}]}, "code": {"coding": [{"system": "http://snomed.info/sct", "code": "35489007", "display": "Depressive disorder"}]}, "onsetDateTime": "2019-07-01"},
+    {"resourceType": "Condition", "id": "c-03", "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]}, "code": {"coding": [{"system": "http://snomed.info/sct", "code": "38341003", "display": "Hypertensive disorder"}]}, "onsetAge": {"value": 45, "unit": "years", "system": "http://unitsofmeasure.org", "code": "a"}},
+    {"resourceType": "Condition", "id": "c-04", "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]}, "code": {"coding": [{"system": "http://snomed.info/sct", "code": "195967001", "display": "Asthma"}]}, "onsetString": "childhood"},
+    {"resourceType": "Condition", "id": "c-05", "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]}, "code": {"coding": [{"system": "http://snomed.info/sct", "code": "709044004", "display": "Chronic kidney disease"}]}, "onsetPeriod": {"start": "2019-10", "end": "2020-02"}},
+    {"resourceType": "Condition", "id": "c-06", "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "resolved"}]}, "code": {"coding": [{"system": "http://snomed.info/sct", "code": "68566005", "display": "Urinary tract infectious disease"}]}, "onsetDateTime": "2015"},
+    {"resourceType": "Condition", "id": "c-07", "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]}, "code": {"coding": [{"system": "http://snomed.info/sct", "code": "49436004", "display": "Atrial fibrillation"}]}, "onsetDateTime": "2020-01-01T07:30:00Z"},
+    {"resourceType": "Condition", "id": "c-08", "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "active"}]}, "code": {"coding": [{"system": "http://snomed.info/sct", "code": "84114007", "display": "Heart failure"}]}, "onsetDateTime": "2020-01-01T09:00:00Z"},
+    {"resourceType": "Condition", "id": "c-09", "verificationStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-ver-status", "code": "entered-in-error"}]}, "code": {"coding": [{"system": "http://snomed.info/sct", "code": "13645005", "display": "Chronic obstructive lung disease"}]}, "onsetDateTime": "2017-05-05"},
+    {"resourceType": "Condition", "id": "c-10", "clinicalStatus": {"coding": [{"system": "http://example.org/fhir/CodeSystem/local-problem-status", "code": "Active"}]}, "code": {"coding": [{"system": "http://snomed.info/sct", "code": "55822004", "display": "Hyperlipidemia"}]}, "onsetDateTime": "2016-08-19"},
+    {"resourceType": "Condition", "id": "c-11", "clinicalStatus": {"coding": [{"system": "http://terminology.hl7.org/CodeSystem/condition-clinical", "code": "inactive"}]}, "code": {"coding": [{"system": "http://snomed.info/sct", "code": "40055000", "display": "Chronic sinusitis"}]}}
+  ],
+  "queries": [
+    {"id": "q1", "query": "Condition?clinical-status=active&onset-date=lt2020-01-01",
+     "expected": ["Condition/c-01", "Condition/c-05", "Condition/c-07"],
+     "rationale": "lt: T starts before 2020-01-01T08:00Z. 07 is 23:30 PST Dec 31 2019 (in); 08 is 01:00 PST Jan 1 (out). 03/04 have no indexed onset; 10's 'Active' does not match 'active'."},
+    {"id": "q2", "query": "Condition?clinical-status=active,recurrence,relapse&onset-date=ge2020-01-01",
+     "expected": ["Condition/c-05", "Condition/c-08"],
+     "rationale": "ge: some part of T at or after 2020-01-01T08:00Z. The onset period through Feb 2020 qualifies; 07 (07:30Z) does not."},
+    {"id": "q3", "query": "Condition?onset-date:missing=true",
+     "expected": ["Condition/c-03", "Condition/c-04", "Condition/c-11"],
+     "rationale": "onset-date indexes only onsetDateTime and onsetPeriod."},
+    {"id": "q4", "query": "Condition?clinical-status:not=active",
+     "expected": ["Condition/c-02", "Condition/c-06", "Condition/c-09", "Condition/c-10", "Condition/c-11"],
+     "rationale": ":not returns every resource without a matching coding, including 09 with no clinicalStatus and 10 with the case-different local code."},
+    {"id": "q5", "query": "Condition?onset-date=2019",
+     "expected": ["Condition/c-02", "Condition/c-07"],
+     "rationale": "Contained in local 2019. The period 05 runs into 2020, so it is not contained."}
+  ],
+  "traps": {
+    "Condition/c-02": ["token-no-subsumption"],
+    "Condition/c-03": ["missing-value", "choice-type-not-indexed"],
+    "Condition/c-04": ["missing-value", "string-not-indexed"],
+    "Condition/c-05": ["period-overlap", "partial-date-interval"],
+    "Condition/c-07": ["tz-local-day-boundary"],
+    "Condition/c-08": ["tz-local-day-boundary"],
+    "Condition/c-09": ["not-includes-missing"],
+    "Condition/c-10": ["token-case-sensitive"],
+    "Condition/c-11": ["missing-value"]
+  }
+}

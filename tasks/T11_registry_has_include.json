@@ -1,0 +1,461 @@
+{
+ "id": "T11",
+ "title": "Diabetes outreach registry: reverse chaining, chaining and includes",
+ "scenario": "An outreach tool finds patients with poorly controlled diabetes (HbA1c > 9%) and pulls the supporting results and their provenance in one search. The server holds five patients, their lab Observations (one Observation references a patient that is not on this server), and Provenance records. All data is synthetic. You are checking what each search returns.",
+ "server_timezone": "America/New_York",
+ "why_hard": "Each _has parameter is evaluated independently (FHIR R4 search 3.1.1.4.16), so two _has conditions can be satisfied by two DIFFERENT Observations; binding code and value requires the code-value-quantity composite. Chained parameters are also independent. _include adds referenced resources that exist on the server (a dangling reference is silently omitted) and each appears once; _revinclude adds resources that point at a match, but not ones that point only at non-matches; included resources are not filtered by the search criteria.",
+ "resources": [
+  {
+   "resourceType": "Patient",
+   "id": "pt-1",
+   "gender": "female",
+   "birthDate": "1960-01-01",
+   "name": [
+    {
+     "family": "Testpatient1",
+     "given": [
+      "Synthetic"
+     ]
+    }
+   ]
+  },
+  {
+   "resourceType": "Patient",
+   "id": "pt-2",
+   "gender": "male",
+   "birthDate": "1955-05-05",
+   "name": [
+    {
+     "family": "Testpatient2",
+     "given": [
+      "Synthetic"
+     ]
+    }
+   ]
+  },
+  {
+   "resourceType": "Patient",
+   "id": "pt-3",
+   "gender": "female",
+   "birthDate": "1972-03-03",
+   "name": [
+    {
+     "family": "Testpatient3",
+     "given": [
+      "Synthetic"
+     ]
+    }
+   ]
+  },
+  {
+   "resourceType": "Patient",
+   "id": "pt-4",
+   "gender": "female",
+   "birthDate": "1980-08-08",
+   "name": [
+    {
+     "family": "Testpatient4",
+     "given": [
+      "Synthetic"
+     ]
+    }
+   ]
+  },
+  {
+   "resourceType": "Patient",
+   "id": "pt-5",
+   "gender": "male",
+   "birthDate": "1949-09-09",
+   "name": [
+    {
+     "family": "Testpatient5",
+     "given": [
+      "Synthetic"
+     ]
+    }
+   ]
+  },
+  {
+   "resourceType": "Observation",
+   "id": "o-1",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "4548-4"
+     }
+    ]
+   },
+   "subject": {
+    "reference": "Patient/pt-1"
+   },
+   "effectiveDateTime": "2024-06-01T10:00:00-04:00",
+   "valueQuantity": {
+    "value": 9.5,
+    "unit": "%",
+    "system": "http://unitsofmeasure.org",
+    "code": "%"
+   }
+  },
+  {
+   "resourceType": "Observation",
+   "id": "o-2",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "13457-7"
+     }
+    ]
+   },
+   "subject": {
+    "reference": "Patient/pt-1"
+   },
+   "effectiveDateTime": "2024-06-01T10:00:00-04:00",
+   "valueQuantity": {
+    "value": 100,
+    "unit": "mg/dL",
+    "system": "http://unitsofmeasure.org",
+    "code": "mg/dL"
+   }
+  },
+  {
+   "resourceType": "Observation",
+   "id": "o-3",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "4548-4"
+     }
+    ]
+   },
+   "subject": {
+    "reference": "Patient/pt-2"
+   },
+   "effectiveDateTime": "2024-06-01T10:00:00-04:00",
+   "valueQuantity": {
+    "value": 7.0,
+    "unit": "%",
+    "system": "http://unitsofmeasure.org",
+    "code": "%"
+   }
+  },
+  {
+   "resourceType": "Observation",
+   "id": "o-4",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "2345-7"
+     }
+    ]
+   },
+   "subject": {
+    "reference": "Patient/pt-2"
+   },
+   "effectiveDateTime": "2024-06-01T10:00:00-04:00",
+   "valueQuantity": {
+    "value": 250,
+    "unit": "mg/dL",
+    "system": "http://unitsofmeasure.org",
+    "code": "mg/dL"
+   }
+  },
+  {
+   "resourceType": "Observation",
+   "id": "o-5",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "4548-4"
+     }
+    ]
+   },
+   "subject": {
+    "reference": "Patient/pt-3"
+   },
+   "effectiveDateTime": "2022-02-02T10:00:00-05:00",
+   "valueQuantity": {
+    "value": 9.2,
+    "unit": "%",
+    "system": "http://unitsofmeasure.org",
+    "code": "%"
+   }
+  },
+  {
+   "resourceType": "Observation",
+   "id": "o-6",
+   "status": "entered-in-error",
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "4548-4"
+     }
+    ]
+   },
+   "subject": {
+    "reference": "Patient/pt-5"
+   },
+   "effectiveDateTime": "2024-06-01T10:00:00-04:00",
+   "valueQuantity": {
+    "value": 10.1,
+    "unit": "%",
+    "system": "http://unitsofmeasure.org",
+    "code": "%"
+   }
+  },
+  {
+   "resourceType": "Observation",
+   "id": "o-7",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "13457-7"
+     }
+    ]
+   },
+   "subject": {
+    "reference": "Patient/pt-5"
+   },
+   "effectiveDateTime": "2024-06-01T10:00:00-04:00",
+   "valueQuantity": {
+    "value": 130,
+    "unit": "mg/dL",
+    "system": "http://unitsofmeasure.org",
+    "code": "mg/dL"
+   }
+  },
+  {
+   "resourceType": "Observation",
+   "id": "o-8",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "4548-4"
+     }
+    ]
+   },
+   "subject": {
+    "reference": "Patient/pt-9"
+   },
+   "effectiveDateTime": "2024-06-01T10:00:00-04:00",
+   "valueQuantity": {
+    "value": 11.0,
+    "unit": "%",
+    "system": "http://unitsofmeasure.org",
+    "code": "%"
+   }
+  },
+  {
+   "resourceType": "Observation",
+   "id": "o-9",
+   "status": "final",
+   "code": {
+    "coding": [
+     {
+      "system": "http://loinc.org",
+      "code": "2345-7"
+     }
+    ]
+   },
+   "subject": {
+    "reference": "Patient/pt-4"
+   },
+   "effectiveDateTime": "2024-06-01T10:00:00-04:00",
+   "valueQuantity": {
+    "value": 95,
+    "unit": "mg/dL",
+    "system": "http://unitsofmeasure.org",
+    "code": "mg/dL"
+   }
+  },
+  {
+   "resourceType": "Provenance",
+   "id": "prov-1",
+   "target": [
+    {
+     "reference": "Observation/o-1"
+    }
+   ],
+   "recorded": "2024-06-01T11:00:00-04:00",
+   "agent": [
+    {
+     "who": {
+      "display": "Interface engine"
+     }
+    }
+   ]
+  },
+  {
+   "resourceType": "Provenance",
+   "id": "prov-2",
+   "target": [
+    {
+     "reference": "Observation/o-3"
+    },
+    {
+     "reference": "Observation/o-4"
+    }
+   ],
+   "recorded": "2024-06-01T11:00:00-04:00",
+   "agent": [
+    {
+     "who": {
+      "display": "Interface engine"
+     }
+    }
+   ]
+  },
+  {
+   "resourceType": "Provenance",
+   "id": "prov-3",
+   "target": [
+    {
+     "reference": "Patient/pt-1"
+    }
+   ],
+   "recorded": "2024-06-01T11:00:00-04:00",
+   "agent": [
+    {
+     "who": {
+      "display": "Registration"
+     }
+    }
+   ]
+  }
+ ],
+ "queries": [
+  {
+   "id": "q1",
+   "query": "Patient?_has:Observation:patient:code=http://loinc.org|4548-4&_has:Observation:patient:value-quantity=gt9",
+   "expected": [
+    "Patient/pt-1",
+    "Patient/pt-2",
+    "Patient/pt-3",
+    "Patient/pt-5"
+   ],
+   "rationale": "Independent: pt-2 has an HbA1c (7.0) and a different Observation (glucose 250) with value > 9. pt-5's only HbA1c is entered-in-error but there is no status filter. pt-4 has no HbA1c."
+  },
+  {
+   "id": "q2",
+   "query": "Patient?_has:Observation:patient:code-value-quantity=http://loinc.org|4548-4$gt9",
+   "expected": [
+    "Patient/pt-1",
+    "Patient/pt-3",
+    "Patient/pt-5"
+   ],
+   "rationale": "Composite binds code and value on the same Observation."
+  },
+  {
+   "id": "q3",
+   "query": "Patient?_has:Observation:patient:code-value-quantity=http://loinc.org|4548-4$gt9&_has:Observation:patient:status=final",
+   "expected": [
+    "Patient/pt-1",
+    "Patient/pt-3",
+    "Patient/pt-5"
+   ],
+   "rationale": "Still independent: pt-5's HbA1c 10.1 is entered-in-error, but its LDL is final, so pt-5 matches."
+  },
+  {
+   "id": "q4",
+   "query": "Observation?code-value-quantity=http://loinc.org|4548-4$gt9&patient.gender=female",
+   "expected": [
+    "Observation/o-1",
+    "Observation/o-5"
+   ],
+   "rationale": "o-1 (pt-1 female) and o-5 (pt-3 female). o-6 belongs to male pt-5; o-8's patient is not on the server, so the chain cannot be satisfied."
+  },
+  {
+   "id": "q5",
+   "query": "Observation?code-value-quantity=http://loinc.org|4548-4$gt9&_include=Observation:patient",
+   "expected": {
+    "match": [
+     "Observation/o-1",
+     "Observation/o-5",
+     "Observation/o-6",
+     "Observation/o-8"
+    ],
+    "include": [
+     "Patient/pt-1",
+     "Patient/pt-3",
+     "Patient/pt-5"
+    ]
+   },
+   "rationale": "o-8 matches but its patient (pt-9) is not on the server, so nothing is included for it. Included patients are not filtered."
+  },
+  {
+   "id": "q6",
+   "query": "Observation?patient=pt-2&_revinclude=Provenance:target",
+   "expected": {
+    "match": [
+     "Observation/o-3",
+     "Observation/o-4"
+    ],
+    "include": [
+     "Provenance/prov-2"
+    ]
+   },
+   "rationale": "prov-2 targets both matches and appears once; prov-1 targets o-1 (not a match)."
+  },
+  {
+   "id": "q7",
+   "query": "Patient?_has:Observation:patient:code=http://loinc.org|4548-4&gender=female&_revinclude=Provenance:target&_revinclude=Observation:patient",
+   "expected": {
+    "match": [
+     "Patient/pt-1",
+     "Patient/pt-3"
+    ],
+    "include": [
+     "Provenance/prov-3",
+     "Observation/o-1",
+     "Observation/o-2",
+     "Observation/o-5"
+    ]
+   },
+   "rationale": "Matches: female patients with any HbA1c (pt-1, pt-3; pt-4 has only glucose). Revincludes: Provenance pointing at a matched Patient (prov-3), and every Observation of the matched patients, not only HbA1c (o-1, o-2, o-5). prov-1 points at an Observation, not a Patient match."
+  }
+ ],
+ "traps": {
+  "Patient/pt-2": [
+   "has-independence"
+  ],
+  "Patient/pt-5": [
+   "has-independence",
+   "status-filter-absent"
+  ],
+  "Observation/o-6": [
+   "chain-target"
+  ],
+  "Observation/o-8": [
+   "dangling-reference"
+  ],
+  "Observation/o-2": [
+   "revinclude-unfiltered"
+  ],
+  "Provenance/prov-1": [
+   "revinclude-scope"
+  ],
+  "Provenance/prov-2": [
+   "include-dedup"
+  ],
+  "Provenance/prov-3": [
+   "revinclude-scope"
+  ],
+  "Patient/pt-4": [
+   "has-independence"
+  ]
+ }
+}

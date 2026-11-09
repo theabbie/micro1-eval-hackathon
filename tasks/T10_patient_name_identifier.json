@@ -1,0 +1,456 @@
+{
+ "id": "T10",
+ "title": "Patient lookup: string and identifier search semantics",
+ "scenario": "A registration desk integration and a duplicate-patient checker search Patient by name and MRN. Names include accents, a two-part Spanish family name, a hyphenated family name, an old (maiden) name, an honorific prefix and all-caps legacy data. All patients are fictional. You are checking which resources each query returns.",
+ "server_timezone": "America/New_York",
+ "why_hard": "Default FHIR string search is case- AND accent-insensitive 'starts with' (not contains, not exact) and applies to every HumanName on the resource, including old names; name also covers prefix/suffix/text; family-name parts are searched independently; :contains matches anywhere (still case/accent-insensitive); :exact is case- and accent-sensitive whole-value. Identifier token search compares system and value exactly (no zero-stripping); a bare value matches any system and any identifier type; :of-type needs type system, type code AND value.",
+ "resources": [
+  {
+   "resourceType": "Patient",
+   "id": "p-01",
+   "identifier": [
+    {
+     "type": {
+      "coding": [
+       {
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+        "code": "MR"
+       }
+      ]
+     },
+     "system": "http://hospital.example.org/fhir/sid/mrn",
+     "value": "000123"
+    }
+   ],
+   "name": [
+    {
+     "use": "official",
+     "family": "Muñoz",
+     "given": [
+      "José",
+      "Luis"
+     ]
+    }
+   ],
+   "gender": "male",
+   "birthDate": "1980-02-29"
+  },
+  {
+   "resourceType": "Patient",
+   "id": "p-02",
+   "identifier": [
+    {
+     "type": {
+      "coding": [
+       {
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+        "code": "MR"
+       }
+      ]
+     },
+     "system": "http://hospital.example.org/fhir/sid/mrn",
+     "value": "123"
+    }
+   ],
+   "name": [
+    {
+     "use": "official",
+     "family": "Carreño Quiñones",
+     "given": [
+      "Ana"
+     ],
+     "text": "Ana Carreño Quiñones"
+    }
+   ],
+   "gender": "female",
+   "birthDate": "1975-06-01"
+  },
+  {
+   "resourceType": "Patient",
+   "id": "p-03",
+   "identifier": [
+    {
+     "type": {
+      "coding": [
+       {
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+        "code": "MR"
+       }
+      ]
+     },
+     "system": "http://clinic.example.net/fhir/sid/mrn",
+     "value": "000123"
+    }
+   ],
+   "name": [
+    {
+     "use": "official",
+     "family": "Smith-Jones",
+     "given": [
+      "Eve"
+     ]
+    }
+   ],
+   "gender": "female",
+   "birthDate": "1990-01-15"
+  },
+  {
+   "resourceType": "Patient",
+   "id": "p-04",
+   "identifier": [
+    {
+     "type": {
+      "coding": [
+       {
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+        "code": "MR"
+       }
+      ]
+     },
+     "system": "http://hospital.example.org/fhir/sid/mrn",
+     "value": "000124"
+    }
+   ],
+   "name": [
+    {
+     "use": "official",
+     "family": "Smithers",
+     "given": [
+      "Evelyn"
+     ]
+    }
+   ],
+   "gender": "female",
+   "birthDate": "1962-11-30"
+  },
+  {
+   "resourceType": "Patient",
+   "id": "p-05",
+   "identifier": [
+    {
+     "type": {
+      "coding": [
+       {
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+        "code": "MR"
+       }
+      ]
+     },
+     "system": "http://hospital.example.org/fhir/sid/mrn",
+     "value": "000125"
+    }
+   ],
+   "name": [
+    {
+     "use": "official",
+     "family": "Johansson",
+     "given": [
+      "Séverine"
+     ]
+    }
+   ],
+   "gender": "female",
+   "birthDate": "2001-07-07"
+  },
+  {
+   "resourceType": "Patient",
+   "id": "p-06",
+   "identifier": [
+    {
+     "type": {
+      "coding": [
+       {
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+        "code": "MR"
+       }
+      ]
+     },
+     "system": "http://hospital.example.org/fhir/sid/mrn",
+     "value": "000126"
+    },
+    {
+     "type": {
+      "coding": [
+       {
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+        "code": "DL"
+       }
+      ]
+     },
+     "system": "urn:example:state-dl",
+     "value": "000123"
+    }
+   ],
+   "name": [
+    {
+     "use": "official",
+     "family": "Jones",
+     "given": [
+      "Steve"
+     ],
+     "prefix": [
+      "Dr."
+     ]
+    }
+   ],
+   "gender": "male",
+   "birthDate": "1958-03-03"
+  },
+  {
+   "resourceType": "Patient",
+   "id": "p-07",
+   "identifier": [
+    {
+     "type": {
+      "coding": [
+       {
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+        "code": "MR"
+       }
+      ]
+     },
+     "system": "http://hospital.example.org/fhir/sid/mrn",
+     "value": "000127"
+    }
+   ],
+   "name": [
+    {
+     "use": "official",
+     "family": "García",
+     "given": [
+      "María"
+     ]
+    },
+    {
+     "use": "old",
+     "family": "Munoz",
+     "period": {
+      "end": "2015-05-01"
+     }
+    }
+   ],
+   "gender": "female",
+   "birthDate": "1985-09-09"
+  },
+  {
+   "resourceType": "Patient",
+   "id": "p-08",
+   "identifier": [
+    {
+     "type": {
+      "coding": [
+       {
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+        "code": "MR"
+       }
+      ]
+     },
+     "system": "http://hospital.example.org/fhir/sid/mrn",
+     "value": "000128"
+    }
+   ],
+   "name": [
+    {
+     "use": "official",
+     "family": "Eve",
+     "given": [
+      "Jon"
+     ]
+    }
+   ],
+   "gender": "male",
+   "birthDate": "1999-12-31"
+  },
+  {
+   "resourceType": "Patient",
+   "id": "p-09",
+   "identifier": [
+    {
+     "type": {
+      "coding": [
+       {
+        "system": "http://terminology.hl7.org/CodeSystem/v2-0203",
+        "code": "MR"
+       }
+      ]
+     },
+     "system": "http://hospital.example.org/fhir/sid/mrn",
+     "value": "000129"
+    }
+   ],
+   "name": [
+    {
+     "use": "official",
+     "family": "SMITH",
+     "given": [
+      "EVE"
+     ]
+    }
+   ],
+   "gender": "female",
+   "birthDate": "1940-04-04"
+  },
+  {
+   "resourceType": "Patient",
+   "id": "p-10",
+   "identifier": [
+    {
+     "system": "http://hospital.example.org/fhir/sid/mrn",
+     "value": "000130"
+    }
+   ],
+   "name": [
+    {
+     "use": "official",
+     "family": "Smith",
+     "given": [
+      "Eve"
+     ]
+    }
+   ],
+   "gender": "female"
+  }
+ ],
+ "queries": [
+  {
+   "id": "q1",
+   "query": "Patient?name=munoz",
+   "expected": [
+    "Patient/p-01",
+    "Patient/p-07"
+   ],
+   "rationale": "Accent-insensitive: Muñoz (01) and old name Munoz (07). Old names are still HumanNames."
+  },
+  {
+   "id": "q2",
+   "query": "Patient?family=quinones",
+   "expected": [
+    "Patient/p-02"
+   ],
+   "rationale": "Family parts searched independently: 'Quiñones' in 'Carreño Quiñones'."
+  },
+  {
+   "id": "q3",
+   "query": "Patient?given=eve",
+   "expected": [
+    "Patient/p-03",
+    "Patient/p-04",
+    "Patient/p-09",
+    "Patient/p-10"
+   ],
+   "rationale": "Starts with, case-insensitive: Eve, Evelyn, EVE, Eve. Family 'Eve' (08) is not a given name; Séverine does not start with eve."
+  },
+  {
+   "id": "q4",
+   "query": "Patient?given:contains=eve",
+   "expected": [
+    "Patient/p-03",
+    "Patient/p-04",
+    "Patient/p-05",
+    "Patient/p-06",
+    "Patient/p-09",
+    "Patient/p-10"
+   ],
+   "rationale": "Anywhere, case/accent-insensitive: adds Séverine and Steve."
+  },
+  {
+   "id": "q5",
+   "query": "Patient?given:exact=Eve",
+   "expected": [
+    "Patient/p-03",
+    "Patient/p-10"
+   ],
+   "rationale": "Exact, case-sensitive: not EVE (09)."
+  },
+  {
+   "id": "q6",
+   "query": "Patient?name=jon",
+   "expected": [
+    "Patient/p-03",
+    "Patient/p-06",
+    "Patient/p-08"
+   ],
+   "rationale": "name covers family (parts), given, prefix, suffix, text: Jones (06), part 'Jones' of Smith-Jones (03), given Jon (08). Johansson does not start with 'jon'."
+  },
+  {
+   "id": "q7",
+   "query": "Patient?family:exact=Smith",
+   "expected": [
+    "Patient/p-10"
+   ],
+   "rationale": ":exact compares the whole family value, case-sensitively: not SMITH, not Smith-Jones, not Smithers."
+  },
+  {
+   "id": "q8",
+   "query": "Patient?identifier=http://hospital.example.org/fhir/sid/mrn|000123",
+   "expected": [
+    "Patient/p-01"
+   ],
+   "rationale": "System and value both exact: 02 has value 123; 03 is another system."
+  },
+  {
+   "id": "q9",
+   "query": "Patient?identifier=000123",
+   "expected": [
+    "Patient/p-01",
+    "Patient/p-03",
+    "Patient/p-06"
+   ],
+   "rationale": "Bare value: any system, any identifier type (includes 06's driver's licence)."
+  },
+  {
+   "id": "q10",
+   "query": "Patient?identifier:of-type=http://terminology.hl7.org/CodeSystem/v2-0203|MR|000123",
+   "expected": [
+    "Patient/p-01",
+    "Patient/p-03"
+   ],
+   "rationale": "Type MR and value 000123, any system: 01 and 03; 06's 000123 is a DL."
+  },
+  {
+   "id": "q11",
+   "query": "Patient?name=dr&gender=male",
+   "expected": [
+    "Patient/p-06"
+   ],
+   "rationale": "Prefix 'Dr.' starts with 'dr'."
+  }
+ ],
+ "traps": {
+  "Patient/p-01": [
+   "string-accent-insensitive"
+  ],
+  "Patient/p-02": [
+   "string-family-parts",
+   "identifier-exact-value"
+  ],
+  "Patient/p-03": [
+   "string-family-parts",
+   "identifier-system"
+  ],
+  "Patient/p-04": [
+   "string-starts-with"
+  ],
+  "Patient/p-05": [
+   "string-contains",
+   "string-starts-with"
+  ],
+  "Patient/p-06": [
+   "string-contains",
+   "identifier-type",
+   "string-name-covers-prefix"
+  ],
+  "Patient/p-07": [
+   "string-all-names"
+  ],
+  "Patient/p-08": [
+   "string-given-vs-family"
+  ],
+  "Patient/p-09": [
+   "string-exact-case"
+  ],
+  "Patient/p-10": [
+   "string-exact-case"
+  ]
+ }
+}

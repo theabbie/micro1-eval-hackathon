@@ -1,0 +1,50 @@
+{
+  "id": "T06",
+  "title": "Encounters in a billing month",
+  "scenario": "A revenue-cycle report lists Encounters for July 2024. It needs encounters that happened entirely within July, encounters that touched July at all, and several boundary views. Encounters include overnight inpatient stays, an ongoing admission, a month-precision billing encounter, a backfilled encounter with only an end, and an encounter with no period.",
+  "server_timezone": "America/New_York",
+  "why_hard": "eq on a month means 'contained', so stays that cross a month boundary are excluded; ge+le means 'overlaps'; an ongoing encounter (no end) extends to +infinity for gt; UTC instants early on Aug 1 / Jul 1 are July 31 / June 30 local; and a period whose end equals the start of the search range does not overlap it.",
+  "resources": [
+    {"resourceType": "Encounter", "id": "e-01", "status": "finished", "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "IMP"}, "period": {"start": "2024-06-28T22:00:00-04:00", "end": "2024-07-03T11:00:00-04:00"}},
+    {"resourceType": "Encounter", "id": "e-02", "status": "in-progress", "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "IMP"}, "period": {"start": "2024-07-30T20:00:00-04:00"}},
+    {"resourceType": "Encounter", "id": "e-03", "status": "finished", "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "AMB"}, "period": {"start": "2024-07-15T09:00:00-04:00", "end": "2024-07-15T09:30:00-04:00"}},
+    {"resourceType": "Encounter", "id": "e-04", "status": "finished", "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "EMER"}, "period": {"start": "2024-07-31T23:10:00-04:00", "end": "2024-08-01T02:40:00-04:00"}},
+    {"resourceType": "Encounter", "id": "e-05", "status": "finished", "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "AMB"}, "period": {"start": "2024-08-01T02:00:00Z", "end": "2024-08-01T02:30:00Z"}},
+    {"resourceType": "Encounter", "id": "e-06", "status": "finished", "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "AMB"}, "period": {"start": "2024-07", "end": "2024-07"}},
+    {"resourceType": "Encounter", "id": "e-07", "status": "finished", "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "OBSENC"}, "period": {"start": "2024-06-30T23:30:00-04:00", "end": "2024-07-01T08:00:00-04:00"}},
+    {"resourceType": "Encounter", "id": "e-08", "status": "planned", "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "IMP"}},
+    {"resourceType": "Encounter", "id": "e-09", "status": "finished", "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "AMB"}, "period": {"start": "2024-07-01T03:30:00Z", "end": "2024-07-01T03:50:00Z"}},
+    {"resourceType": "Encounter", "id": "e-10", "status": "finished", "class": {"system": "http://terminology.hl7.org/CodeSystem/v3-ActCode", "code": "AMB"}, "period": {"end": "2024-07-10"}}
+  ],
+  "queries": [
+    {"id": "q1", "query": "Encounter?date=2024-07",
+     "expected": ["Encounter/e-03", "Encounter/e-05", "Encounter/e-06"],
+     "rationale": "Contained in local July [07-01T04:00Z, 08-01T04:00Z). 05 is 22:00-22:30 EDT Jul 31 (in); 04 runs into Aug 1 local; 10 has no start (-inf)."},
+    {"id": "q2", "query": "Encounter?date=ge2024-07-01&date=le2024-07-31",
+     "expected": ["Encounter/e-01", "Encounter/e-02", "Encounter/e-03", "Encounter/e-04", "Encounter/e-05", "Encounter/e-06", "Encounter/e-07", "Encounter/e-10"],
+     "rationale": "Overlaps July. 09 is 23:30-23:50 EDT Jun 30 (out). 08 has no period."},
+    {"id": "q3", "query": "Encounter?class=http://terminology.hl7.org/CodeSystem/v3-ActCode|IMP&date=sa2024-06-30",
+     "expected": ["Encounter/e-02"],
+     "rationale": "Inpatient encounters starting at/after 07-01T04:00Z. 01 starts Jun 28."},
+    {"id": "q4", "query": "Encounter?date=gt2024-07-31",
+     "expected": ["Encounter/e-02", "Encounter/e-04"],
+     "rationale": "Some part at/after 08-01T04:00Z: ongoing 02 (+inf) and 04 (ends 02:40 EDT Aug 1). 06 ends exactly at 08-01T04:00Z; 05 ends 02:30Z."},
+    {"id": "q5", "query": "Encounter?date=lt2024-07-01&class=AMB,OBSENC",
+     "expected": ["Encounter/e-07", "Encounter/e-09", "Encounter/e-10"],
+     "rationale": "Starts before 07-01T04:00Z. 06 starts exactly at 07-01T04:00Z (not before)."},
+    {"id": "q6", "query": "Encounter?date:missing=true",
+     "expected": ["Encounter/e-08"],
+     "rationale": "Only the planned encounter lacks a period."}
+  ],
+  "traps": {
+    "Encounter/e-01": ["period-overlap"],
+    "Encounter/e-02": ["period-open-end"],
+    "Encounter/e-04": ["period-overlap", "tz-local-day-boundary"],
+    "Encounter/e-05": ["tz-local-day-boundary"],
+    "Encounter/e-06": ["partial-date-interval", "sa-eb-touching-boundary"],
+    "Encounter/e-07": ["period-overlap"],
+    "Encounter/e-08": ["missing-value"],
+    "Encounter/e-09": ["tz-local-day-boundary"],
+    "Encounter/e-10": ["period-open-start"]
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "run": "ablation-effort-high-20261030",
+  "backend": "claude-cli",
+  "models": [
+    "claude-opus-5-5"
+  ],
+  "trials": 3,
+  "effort": "high",
+  "profile": "spec",
+  "started_utc": "2026-10-30T12:08:34.184569+00:00"
+}

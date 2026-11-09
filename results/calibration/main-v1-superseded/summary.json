@@ -1,0 +1,266 @@
+{
+  "run": "main-20261030",
+  "models": {
+    "claude-opus-5-5": {
+      "backend": "claude-cli",
+      "effort": "medium",
+      "profile": "spec",
+      "resolved_model": [
+        "claude-opus-5-5"
+      ],
+      "trials": 33,
+      "trials_per_task": 3,
+      "errors": 0,
+      "tool_attempt_trials": 0,
+      "task_pass_rate": 0.9393939393939394,
+      "mean_task_score": 0.9929161747343566,
+      "query_accuracy": 0.990990990990991,
+      "pass_at_k": 1.0,
+      "pass_hat_k": 0.8181818181818182,
+      "cost_usd_total": 2.5801,
+      "output_tokens_total": 94770,
+      "input_tokens_total": 135314,
+      "seconds_total": 1405
+    },
+    "gpt-6.1-sol": {
+      "backend": "codex-cli",
+      "effort": "medium",
+      "profile": "spec",
+      "resolved_model": [
+        "gpt-6.1-sol"
+      ],
+      "trials": 33,
+      "trials_per_task": 3,
+      "errors": 0,
+      "tool_attempt_trials": 33,
+      "task_pass_rate": 0.9696969696969697,
+      "mean_task_score": 0.9939393939393939,
+      "query_accuracy": 0.9954954954954955,
+      "pass_at_k": 1.0,
+      "pass_hat_k": 0.9090909090909091,
+      "cost_usd_total": null,
+      "output_tokens_total": 24106,
+      "input_tokens_total": 580807,
+      "seconds_total": 1118
+    },
+    "claude-sonnet-5-5": {
+      "backend": "claude-cli",
+      "effort": "medium",
+      "profile": "spec",
+      "resolved_model": [
+        "claude-sonnet-5-5"
+      ],
+      "trials": 33,
+      "trials_per_task": 3,
+      "errors": 0,
+      "tool_attempt_trials": 0,
+      "task_pass_rate": 0.7272727272727273,
+      "mean_task_score": 0.9146103896103897,
+      "query_accuracy": 0.9234234234234234,
+      "pass_at_k": 0.9090909090909091,
+      "pass_hat_k": 0.45454545454545453,
+      "cost_usd_total": 1.2712,
+      "output_tokens_total": 98841,
+      "input_tokens_total": 135455,
+      "seconds_total": 1236
+    },
+    "gpt-5.6-luna": {
+      "backend": "codex-cli",
+      "effort": "medium",
+      "profile": "spec",
+      "resolved_model": [
+        "gpt-5.6-luna"
+      ],
+      "trials": 33,
+      "trials_per_task": 3,
+      "errors": 0,
+      "tool_attempt_trials": 33,
+      "task_pass_rate": 0.0,
+      "mean_task_score": 0.5466974944247672,
+      "query_accuracy": 0.5630630630630631,
+      "pass_at_k": 0.0,
+      "pass_hat_k": 0.0,
+      "cost_usd_total": null,
+      "output_tokens_total": 64411,
+      "input_tokens_total": 368443,
+      "seconds_total": 1951
+    },
+    "claude-haiku-5-5": {
+      "backend": "claude-cli",
+      "effort": "medium",
+      "profile": "spec",
+      "resolved_model": [
+        "claude-haiku-5-5"
+      ],
+      "trials": 33,
+      "trials_per_task": 3,
+      "errors": 0,
+      "tool_attempt_trials": 0,
+      "task_pass_rate": 0.5757575757575758,
+      "mean_task_score": 0.9036796536796537,
+      "query_accuracy": 0.9144144144144144,
+      "pass_at_k": 0.8181818181818182,
+      "pass_hat_k": 0.2727272727272727,
+      "cost_usd_total": 0.1292,
+      "output_tokens_total": 230304,
+      "input_tokens_total": 136127,
+      "seconds_total": 1480
+    }
+  },
+  "matrix": {
+    "claude-opus-5-5": {
+      "T01": "3/3",
+      "T02": "3/3",
+      "T03": "3/3",
+      "T04": "3/3",
+      "T05": "3/3",
+      "T06": "3/3",
+      "T07": "3/3",
+      "T08": "3/3",
+      "T09": "2/3",
+      "T10": "2/3",
+      "T11": "3/3"
+    },
+    "gpt-6.1-sol": {
+      "T01": "3/3",
+      "T02": "3/3",
+      "T03": "3/3",
+      "T04": "3/3",
+      "T05": "2/3",
+      "T06": "3/3",
+      "T07": "3/3",
+      "T08": "3/3",
+      "T09": "3/3",
+      "T10": "3/3",
+      "T11": "3/3"
+    },
+    "claude-sonnet-5-5": {
+      "T01": "0/3",
+      "T02": "2/3",
+      "T03": "2/3",
+      "T04": "3/3",
+      "T05": "2/3",
+      "T06": "3/3",
+      "T07": "1/3",
+      "T08": "3/3",
+      "T09": "2/3",
+      "T10": "3/3",
+      "T11": "3/3"
+    },
+    "gpt-5.6-luna": {
+      "T01": "0/3",
+      "T02": "0/3",
+      "T03": "0/3",
+      "T04": "0/3",
+      "T05": "0/3",
+      "T06": "0/3",
+      "T07": "0/3",
+      "T08": "0/3",
+      "T09": "0/3",
+      "T10": "0/3",
+      "T11": "0/3"
+    },
+    "claude-haiku-5-5": {
+      "T01": "0/3",
+      "T02": "2/3",
+      "T03": "2/3",
+      "T04": "3/3",
+      "T05": "1/3",
+      "T06": "1/3",
+      "T07": "0/3",
+      "T08": "2/3",
+      "T09": "3/3",
+      "T10": "3/3",
+      "T11": "2/3"
+    }
+  },
+  "traps": {
+    "claude-opus-5-5": {
+      "component-independence": 1,
+      "string-contains": 1,
+      "identifier-type": 1,
+      "string-name-covers-prefix": 1
+    },
+    "gpt-6.1-sol": {
+      "tz-local-day-boundary": 1
+    },
+    "claude-sonnet-5-5": {
+      "quantity-precision-range": 9,
+      "token-any-coding": 3,
+      "partial-date-interval": 3,
+      "tz-foreign-offset": 3,
+      "sa-eb-touching-boundary": 3,
+      "period-overlap": 2,
+      "(untagged)": 2,
+      "component-independence": 1
+    },
+    "gpt-5.6-luna": {
+      "partial-date-interval": 53,
+      "period-overlap": 43,
+      "period-open-end": 27,
+      "tz-local-day-boundary": 22,
+      "period-open-start": 18,
+      "period-day-precision-end": 15,
+      "quantity-precision-range": 7,
+      "(untagged)": 7,
+      "component-independence": 7,
+      "string-contains": 6,
+      "dst-month-boundary": 4,
+      "string-starts-with": 4,
+      "identifier-type": 4,
+      "string-name-covers-prefix": 4,
+      "has-independence": 4,
+      "string-family-parts": 3,
+      "identifier-system": 3,
+      "exact-comparison-boundary": 2,
+      "dst-repeated-hour": 2,
+      "dst-day-length": 2,
+      "status-filter": 2,
+      "quantity-unit-matching": 2,
+      "status-filter-absent": 2,
+      "token-system": 1,
+      "token-any-coding": 1,
+      "minute-precision-interval": 1,
+      "token-case-sensitive": 1,
+      "component-data-absent": 1
+    },
+    "claude-haiku-5-5": {
+      "period-overlap": 11,
+      "partial-date-interval": 9,
+      "period-open-end": 5,
+      "quantity-precision-range": 4,
+      "period-open-start": 4,
+      "period-day-precision-end": 3,
+      "quantity-unit-matching": 3,
+      "tz-local-day-boundary": 2,
+      "token-any-coding": 1,
+      "(untagged)": 1,
+      "has-independence": 1
+    }
+  },
+  "fingerprints": {
+    "claude-opus-5-5": {
+      "(no single-rule variant)": 2
+    },
+    "gpt-6.1-sol": {
+      "offsetless-as-UTC": 1
+    },
+    "claude-sonnet-5-5": {
+      "(no single-rule variant)": 14,
+      "fixed-std-offset-no-DST": 2,
+      "targets-as-points": 1
+    },
+    "gpt-5.6-luna": {
+      "(no single-rule variant)": 52,
+      "eq-means-overlap": 30,
+      "targets-as-points": 13,
+      "fixed-std-offset-no-DST": 2,
+      "offsetless-as-UTC": 1
+    },
+    "claude-haiku-5-5": {
+      "eq-means-overlap": 10,
+      "(no single-rule variant)": 8,
+      "targets-as-points": 3
+    }
+  }
+}

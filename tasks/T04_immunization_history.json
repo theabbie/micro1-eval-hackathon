@@ -1,0 +1,51 @@
+{
+  "id": "T04",
+  "title": "Immunization history for a school/camp form",
+  "scenario": "A pediatric practice in Chicago fills out a school immunization form from FHIR Immunization records. Historical doses were back-entered from parent recall and paper records, so precision varies: full dates, year-month, year only, UTC instants and free-text occurrence strings. You are checking which resources each query returns.",
+  "server_timezone": "America/Chicago",
+  "why_hard": "occurrenceString values are not indexed by the date parameter (even when the text looks like a date), year-only and month-only values are intervals that eq does not match unless contained, ne matches anything indexed that is not contained, and UTC instants just after midnight UTC belong to the previous local day/year.",
+  "resources": [
+    {"resourceType": "Immunization", "id": "imm-01", "status": "completed", "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "03", "display": "MMR"}]}, "occurrenceDateTime": "2019-05-14"},
+    {"resourceType": "Immunization", "id": "imm-02", "status": "completed", "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "03"}]}, "occurrenceDateTime": "2019"},
+    {"resourceType": "Immunization", "id": "imm-03", "status": "completed", "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "03"}]}, "occurrenceString": "age 4, per parent"},
+    {"resourceType": "Immunization", "id": "imm-04", "status": "completed", "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "20", "display": "DTaP"}]}, "occurrenceDateTime": "2019-05"},
+    {"resourceType": "Immunization", "id": "imm-05", "status": "completed", "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "20"}]}, "occurrenceDateTime": "2019-06-01T03:30:00Z"},
+    {"resourceType": "Immunization", "id": "imm-06", "status": "completed", "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "08", "display": "Hep B, adolescent or pediatric"}]}, "occurrenceDateTime": "2018-12-31T23:00:00-06:00"},
+    {"resourceType": "Immunization", "id": "imm-07", "status": "not-done", "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "10", "display": "IPV"}]}, "occurrenceDateTime": "2019-05-20"},
+    {"resourceType": "Immunization", "id": "imm-08", "status": "completed", "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "10"}]}, "occurrenceDateTime": "2020-01-01T05:30:00Z"},
+    {"resourceType": "Immunization", "id": "imm-09", "status": "completed", "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "21", "display": "varicella"}]}, "occurrenceDateTime": "2019-05-31T23:59:00"},
+    {"resourceType": "Immunization", "id": "imm-10", "status": "completed", "vaccineCode": {"coding": [{"system": "http://hl7.org/fhir/sid/cvx", "code": "21"}]}, "occurrenceString": "2019"}
+  ],
+  "queries": [
+    {"id": "q1", "query": "Immunization?date=2019-05",
+     "expected": ["Immunization/imm-01", "Immunization/imm-04", "Immunization/imm-05", "Immunization/imm-07", "Immunization/imm-09"],
+     "rationale": "Contained in May 2019 local [05-01T05:00Z, 06-01T05:00Z). 05 is 22:30 CDT May 31 (in). 02 (year) is not contained. Strings are not indexed. No status filter, so not-done 07 is returned."},
+    {"id": "q2", "query": "Immunization?date=ne2019-05",
+     "expected": ["Immunization/imm-02", "Immunization/imm-06", "Immunization/imm-08"],
+     "rationale": "Indexed and not contained in May 2019: the year-only 02 matches ne. String occurrences (03, 10) match nothing, including ne."},
+    {"id": "q3", "query": "Immunization?date=2019",
+     "expected": ["Immunization/imm-01", "Immunization/imm-02", "Immunization/imm-04", "Immunization/imm-05", "Immunization/imm-07", "Immunization/imm-08", "Immunization/imm-09"],
+     "rationale": "Contained in local 2019 [2019-01-01T06:00Z, 2020-01-01T06:00Z). 06 is 23:00 CST Dec 31 2018 (out); 08 is 23:30 CST Dec 31 2019 (in); 10 is a string."},
+    {"id": "q4", "query": "Immunization?date=le2019-05-31&status=completed",
+     "expected": ["Immunization/imm-01", "Immunization/imm-02", "Immunization/imm-04", "Immunization/imm-05", "Immunization/imm-06", "Immunization/imm-09"],
+     "rationale": "le: T starts before the end of May 31 local (06-01T05:00Z). 05 (06-01T03:30Z) is in. 02 (year) starts in January. 07 is not-done."},
+    {"id": "q5", "query": "Immunization?date:missing=true",
+     "expected": ["Immunization/imm-03", "Immunization/imm-10"],
+     "rationale": "Only occurrenceDateTime is indexed; the two occurrenceString records have no value for date."},
+    {"id": "q6", "query": "Immunization?vaccine-code=http://hl7.org/fhir/sid/cvx|03&date=gt2019-05-14",
+     "expected": ["Immunization/imm-02"],
+     "rationale": "gt: T extends past the end of May 14. 01 (that same day) does not; year-only 02 does; 03 is not indexed."}
+  ],
+  "traps": {
+    "Immunization/imm-01": ["gt-same-day"],
+    "Immunization/imm-02": ["partial-date-interval"],
+    "Immunization/imm-03": ["string-not-indexed"],
+    "Immunization/imm-04": ["partial-date-interval"],
+    "Immunization/imm-05": ["tz-local-day-boundary"],
+    "Immunization/imm-06": ["tz-local-day-boundary"],
+    "Immunization/imm-07": ["status-filter"],
+    "Immunization/imm-08": ["tz-local-day-boundary"],
+    "Immunization/imm-09": ["tz-offsetless-local"],
+    "Immunization/imm-10": ["string-not-indexed"]
+  }
+}

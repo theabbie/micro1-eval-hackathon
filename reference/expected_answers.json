@@ -1,0 +1,445 @@
+{
+  "T01": {
+    "q1": [
+      "Observation/a1c-01",
+      "Observation/a1c-02",
+      "Observation/a1c-04",
+      "Observation/a1c-08",
+      "Observation/a1c-09"
+    ],
+    "q2": [
+      "Observation/a1c-02",
+      "Observation/a1c-12"
+    ],
+    "q3": [
+      "Observation/a1c-05",
+      "Observation/a1c-08",
+      "Observation/a1c-11"
+    ],
+    "q4": [
+      "Observation/a1c-11"
+    ],
+    "q5": [
+      "Observation/a1c-02"
+    ]
+  },
+  "T02": {
+    "q1": [
+      "Observation/k-01",
+      "Observation/k-03",
+      "Observation/k-05",
+      "Observation/k-06",
+      "Observation/k-07",
+      "Observation/k-08",
+      "Observation/k-09",
+      "Observation/k-12",
+      "Observation/k-13"
+    ],
+    "q2": [
+      "Observation/k-05",
+      "Observation/k-08",
+      "Observation/k-10",
+      "Observation/k-11",
+      "Observation/k-12"
+    ],
+    "q3": [
+      "Observation/k-04"
+    ],
+    "q4": [
+      "Observation/k-02"
+    ],
+    "q5": [
+      "Observation/k-02",
+      "Observation/k-04",
+      "Observation/k-10",
+      "Observation/k-11"
+    ],
+    "q6": [
+      "Observation/k-06",
+      "Observation/k-07"
+    ]
+  },
+  "T03": {
+    "q1": [
+      "MedicationStatement/m-01",
+      "MedicationStatement/m-02",
+      "MedicationStatement/m-04",
+      "MedicationStatement/m-05",
+      "MedicationStatement/m-06",
+      "MedicationStatement/m-09",
+      "MedicationStatement/m-10"
+    ],
+    "q2": [
+      "MedicationStatement/m-02",
+      "MedicationStatement/m-06",
+      "MedicationStatement/m-10"
+    ],
+    "q3": [
+      "MedicationStatement/m-03",
+      "MedicationStatement/m-07"
+    ],
+    "q4": [
+      "MedicationStatement/m-08",
+      "MedicationStatement/m-12"
+    ],
+    "q5": [
+      "MedicationStatement/m-01",
+      "MedicationStatement/m-05",
+      "MedicationStatement/m-06"
+    ],
+    "q6": [
+      "MedicationStatement/m-11"
+    ],
+    "q7": [
+      "MedicationStatement/m-10"
+    ],
+    "q8": [
+      "MedicationStatement/m-01",
+      "MedicationStatement/m-02",
+      "MedicationStatement/m-03",
+      "MedicationStatement/m-04",
+      "MedicationStatement/m-05",
+      "MedicationStatement/m-06",
+      "MedicationStatement/m-07",
+      "MedicationStatement/m-08",
+      "MedicationStatement/m-09",
+      "MedicationStatement/m-12"
+    ]
+  },
+  "T04": {
+    "q1": [
+      "Immunization/imm-01",
+      "Immunization/imm-04",
+      "Immunization/imm-05",
+      "Immunization/imm-07",
+      "Immunization/imm-09"
+    ],
+    "q2": [
+      "Immunization/imm-02",
+      "Immunization/imm-06",
+      "Immunization/imm-08"
+    ],
+    "q3": [
+      "Immunization/imm-01",
+      "Immunization/imm-02",
+      "Immunization/imm-04",
+      "Immunization/imm-05",
+      "Immunization/imm-07",
+      "Immunization/imm-08",
+      "Immunization/imm-09"
+    ],
+    "q4": [
+      "Immunization/imm-01",
+      "Immunization/imm-02",
+      "Immunization/imm-04",
+      "Immunization/imm-05",
+      "Immunization/imm-06",
+      "Immunization/imm-09"
+    ],
+    "q5": [
+      "Immunization/imm-03",
+      "Immunization/imm-10"
+    ],
+    "q6": [
+      "Immunization/imm-02"
+    ]
+  },
+  "T05": {
+    "q1": [
+      "Condition/c-01",
+      "Condition/c-05",
+      "Condition/c-07"
+    ],
+    "q2": [
+      "Condition/c-05",
+      "Condition/c-08"
+    ],
+    "q3": [
+      "Condition/c-03",
+      "Condition/c-04",
+      "Condition/c-11"
+    ],
+    "q4": [
+      "Condition/c-02",
+      "Condition/c-06",
+      "Condition/c-09",
+      "Condition/c-10",
+      "Condition/c-11"
+    ],
+    "q5": [
+      "Condition/c-02",
+      "Condition/c-07"
+    ]
+  },
+  "T06": {
+    "q1": [
+      "Encounter/e-03",
+      "Encounter/e-05",
+      "Encounter/e-06"
+    ],
+    "q2": [
+      "Encounter/e-01",
+      "Encounter/e-02",
+      "Encounter/e-03",
+      "Encounter/e-04",
+      "Encounter/e-05",
+      "Encounter/e-06",
+      "Encounter/e-07",
+      "Encounter/e-10"
+    ],
+    "q3": [
+      "Encounter/e-02"
+    ],
+    "q4": [
+      "Encounter/e-02",
+      "Encounter/e-04"
+    ],
+    "q5": [
+      "Encounter/e-07",
+      "Encounter/e-09",
+      "Encounter/e-10"
+    ],
+    "q6": [
+      "Encounter/e-08"
+    ]
+  },
+  "T07": {
+    "q1": [
+      "Observation/w-01",
+      "Observation/w-02",
+      "Observation/w-04",
+      "Observation/w-06",
+      "Observation/w-07",
+      "Observation/w-09"
+    ],
+    "q2": [
+      "Observation/w-01",
+      "Observation/w-06",
+      "Observation/w-09"
+    ],
+    "q3": [
+      "Observation/w-01",
+      "Observation/w-02",
+      "Observation/w-04",
+      "Observation/w-06",
+      "Observation/w-07",
+      "Observation/w-08",
+      "Observation/w-09"
+    ],
+    "q4": [
+      "Observation/w-02",
+      "Observation/w-03",
+      "Observation/w-06"
+    ],
+    "q5": [
+      "Observation/w-03"
+    ],
+    "q6": [
+      "Observation/w-04",
+      "Observation/w-07"
+    ]
+  },
+  "T08": {
+    "q1": [
+      "Observation/g-01",
+      "Observation/g-05",
+      "Observation/g-10",
+      "Observation/g-12",
+      "Observation/g-13"
+    ],
+    "q2": [
+      "Observation/g-02",
+      "Observation/g-03",
+      "Observation/g-06",
+      "Observation/g-07",
+      "Observation/g-08",
+      "Observation/g-11",
+      "Observation/g-14"
+    ],
+    "q3": [
+      "Observation/g-02",
+      "Observation/g-03",
+      "Observation/g-06",
+      "Observation/g-07",
+      "Observation/g-08",
+      "Observation/g-09",
+      "Observation/g-11",
+      "Observation/g-14",
+      "Observation/g-15",
+      "Observation/g-16"
+    ],
+    "q4": [
+      "Observation/g-01",
+      "Observation/g-05",
+      "Observation/g-10",
+      "Observation/g-12",
+      "Observation/g-13"
+    ],
+    "q5": [
+      "Observation/g-04"
+    ],
+    "q6": [
+      "Observation/g-01",
+      "Observation/g-04",
+      "Observation/g-05",
+      "Observation/g-09",
+      "Observation/g-10",
+      "Observation/g-12",
+      "Observation/g-13",
+      "Observation/g-15",
+      "Observation/g-16"
+    ],
+    "q7": [
+      "Observation/g-04",
+      "Observation/g-15",
+      "Observation/g-16"
+    ]
+  },
+  "T09": {
+    "q1": [
+      "Observation/bp-01",
+      "Observation/bp-02",
+      "Observation/bp-03",
+      "Observation/bp-04",
+      "Observation/bp-05",
+      "Observation/bp-06",
+      "Observation/bp-07",
+      "Observation/bp-08",
+      "Observation/bp-09"
+    ],
+    "q2": [
+      "Observation/bp-02",
+      "Observation/bp-04",
+      "Observation/bp-07",
+      "Observation/bp-08"
+    ],
+    "q3": [
+      "Observation/bp-01",
+      "Observation/bp-02",
+      "Observation/bp-04",
+      "Observation/bp-06",
+      "Observation/bp-07"
+    ],
+    "q4": [
+      "Observation/bp-04",
+      "Observation/bp-07"
+    ],
+    "q5": [
+      "Observation/bp-07",
+      "Observation/bp-09"
+    ],
+    "q6": [
+      "Observation/sbp-01"
+    ],
+    "q7": [
+      "Observation/hr-01",
+      "Observation/sbp-01"
+    ]
+  },
+  "T10": {
+    "q1": [
+      "Patient/p-01",
+      "Patient/p-07"
+    ],
+    "q2": [
+      "Patient/p-02"
+    ],
+    "q3": [
+      "Patient/p-03",
+      "Patient/p-04",
+      "Patient/p-09",
+      "Patient/p-10"
+    ],
+    "q4": [
+      "Patient/p-03",
+      "Patient/p-04",
+      "Patient/p-05",
+      "Patient/p-06",
+      "Patient/p-09",
+      "Patient/p-10"
+    ],
+    "q5": [
+      "Patient/p-03",
+      "Patient/p-10"
+    ],
+    "q6": [
+      "Patient/p-03",
+      "Patient/p-06",
+      "Patient/p-08"
+    ],
+    "q7": [
+      "Patient/p-10"
+    ],
+    "q8": [
+      "Patient/p-01"
+    ],
+    "q9": [
+      "Patient/p-01",
+      "Patient/p-03",
+      "Patient/p-06"
+    ],
+    "q10": [
+      "Patient/p-01",
+      "Patient/p-03"
+    ],
+    "q11": [
+      "Patient/p-06"
+    ]
+  },
+  "T11": {
+    "q1": [
+      "Patient/pt-1",
+      "Patient/pt-2",
+      "Patient/pt-3",
+      "Patient/pt-5"
+    ],
+    "q2": [
+      "Patient/pt-1",
+      "Patient/pt-3",
+      "Patient/pt-5"
+    ],
+    "q3": [
+      "Patient/pt-1",
+      "Patient/pt-3",
+      "Patient/pt-5"
+    ],
+    "q4": [
+      "Observation/o-1",
+      "Observation/o-5"
+    ],
+    "q5": {
+      "match": [
+        "Observation/o-1",
+        "Observation/o-5",
+        "Observation/o-6",
+        "Observation/o-8"
+      ],
+      "include": [
+        "Patient/pt-1",
+        "Patient/pt-3",
+        "Patient/pt-5"
+      ]
+    },
+    "q6": {
+      "match": [
+        "Observation/o-3",
+        "Observation/o-4"
+      ],
+      "include": [
+        "Provenance/prov-2"
+      ]
+    },
+    "q7": {
+      "match": [
+        "Patient/pt-1",
+        "Patient/pt-3"
+      ],
+      "include": [
+        "Observation/o-1",
+        "Observation/o-2",
+        "Observation/o-5",
+        "Provenance/prov-3"
+      ]
+    }
+  }
+}

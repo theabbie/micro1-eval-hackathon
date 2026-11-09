@@ -1,0 +1,11 @@
+{
+  "run": "calib-spec",
+  "backend": "codex-cli",
+  "models": [
+    "gpt-6.1-sol"
+  ],
+  "trials": 2,
+  "effort": "medium",
+  "profile": "spec",
+  "started_utc": "2026-10-30T11:28:15.767680+00:00"
+}

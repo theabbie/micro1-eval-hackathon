@@ -1,0 +1,113 @@
+{
+  "run": "calib-spec2",
+  "models": {
+    "claude-opus-5-5": {
+      "backend": "claude-cli",
+      "effort": "medium",
+      "profile": "spec",
+      "resolved_model": [
+        "claude-opus-5-5"
+      ],
+      "trials": 3,
+      "trials_per_task": 1,
+      "errors": 0,
+      "tool_attempt_trials": 0,
+      "task_pass_rate": 0.3333333333333333,
+      "mean_task_score": 0.7965367965367965,
+      "query_accuracy": 0.8,
+      "pass_at_k": 0.3333333333333333,
+      "pass_hat_k": 0.3333333333333333,
+      "cost_usd_total": 0.274,
+      "output_tokens_total": 7858,
+      "input_tokens_total": 14606,
+      "seconds_total": 103
+    },
+    "claude-haiku-5-5": {
+      "backend": "claude-cli",
+      "effort": "medium",
+      "profile": "spec",
+      "resolved_model": [
+        "claude-haiku-5-5"
+      ],
+      "trials": 3,
+      "trials_per_task": 1,
+      "errors": 0,
+      "tool_attempt_trials": 0,
+      "task_pass_rate": 0.3333333333333333,
+      "mean_task_score": 0.7965367965367965,
+      "query_accuracy": 0.8,
+      "pass_at_k": 0.3333333333333333,
+      "pass_hat_k": 0.3333333333333333,
+      "cost_usd_total": 0.0125,
+      "output_tokens_total": 19164,
+      "input_tokens_total": 14682,
+      "seconds_total": 110
+    },
+    "gpt-6.1-sol": {
+      "backend": "codex-cli",
+      "effort": "medium",
+      "profile": "spec",
+      "resolved_model": [
+        "gpt-6.1-sol"
+      ],
+      "trials": 3,
+      "trials_per_task": 1,
+      "errors": 0,
+      "tool_attempt_trials": 3,
+      "task_pass_rate": 1.0,
+      "mean_task_score": 1.0,
+      "query_accuracy": 1.0,
+      "pass_at_k": 1.0,
+      "pass_hat_k": 1.0,
+      "cost_usd_total": null,
+      "output_tokens_total": 2116,
+      "input_tokens_total": 56795,
+      "seconds_total": 108
+    }
+  },
+  "matrix": {
+    "claude-opus-5-5": {
+      "T09": "0/1",
+      "T10": "0/1",
+      "T11": "1/1"
+    },
+    "claude-haiku-5-5": {
+      "T09": "0/1",
+      "T10": "0/1",
+      "T11": "1/1"
+    },
+    "gpt-6.1-sol": {
+      "T09": "1/1",
+      "T10": "1/1",
+      "T11": "1/1"
+    }
+  },
+  "traps": {
+    "claude-opus-5-5": {
+      "quantity-precision-range": 3,
+      "exact-comparison-boundary": 3,
+      "string-contains": 1,
+      "identifier-type": 1,
+      "string-name-covers-prefix": 1,
+      "string-family-parts": 1,
+      "identifier-system": 1
+    },
+    "claude-haiku-5-5": {
+      "quantity-precision-range": 3,
+      "exact-comparison-boundary": 3,
+      "string-family-parts": 2,
+      "identifier-system": 2
+    },
+    "gpt-6.1-sol": {}
+  },
+  "fingerprints": {
+    "claude-opus-5-5": {
+      "(no single-rule variant)": 5
+    },
+    "claude-haiku-5-5": {
+      "(no single-rule variant)": 4,
+      "string-no-family-parts": 1
+    },
+    "gpt-6.1-sol": {}
+  }
+}

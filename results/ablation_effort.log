@@ -1,0 +1,7 @@
+run ablation-effort-high-20261030: 6 trials to do (0 already done)
+claude-opus-5-5      T09 t1   33.2s score=0.86 pass=False
+claude-opus-5-5      T09 t2   33.4s score=1.00 pass=True
+claude-opus-5-5      T09 t3   33.4s score=0.86 pass=False
+claude-opus-5-5      T10 t3   39.6s score=1.00 pass=True
+claude-opus-5-5      T10 t1   40.8s score=0.91 pass=False
+claude-opus-5-5      T10 t2   45.8s score=0.91 pass=False

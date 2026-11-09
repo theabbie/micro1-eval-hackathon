@@ -1,0 +1,51 @@
+{
+  "id": "T01",
+  "title": "HbA1c measurement-year lookback (quality measure)",
+  "scenario": "A quality-measure engine (diabetes HbA1c control, measurement year 2024) pulls HbA1c results from a FHIR server. Lab results arrive from several interfaces: some stamp UTC instants, some local offsets, one outside record has only a year. You are checking which resources each query the engine issues will return.",
+  "server_timezone": "America/New_York",
+  "why_hard": "Requires converting UTC instants near midnight on Dec 31 / Jan 1 to local time (EST, -05:00), treating a year-only effectiveDateTime as a whole-year interval for ge/le, honouring token system|code (a local system reusing the LOINC code string, and a code with no system), status filtering, exact gt on a value of exactly 9.0, the implicit range [7.95, 8.05) of '8.0', and the fact that a query with no status filter returns entered-in-error results.",
+  "resources": [
+    {"resourceType": "Observation", "id": "a1c-01", "status": "final", "code": {"coding": [{"system": "http://loinc.org", "code": "4548-4", "display": "Hemoglobin A1c/Hemoglobin.total in Blood"}]}, "effectiveDateTime": "2024-03-14T09:20:00-04:00", "valueQuantity": {"value": 7.2, "unit": "%", "system": "http://unitsofmeasure.org", "code": "%"}},
+    {"resourceType": "Observation", "id": "a1c-02", "status": "final", "code": {"coding": [{"system": "http://loinc.org", "code": "4548-4"}]}, "effectiveDateTime": "2025-01-01T03:00:00Z", "valueQuantity": {"value": 9.4, "unit": "%", "system": "http://unitsofmeasure.org", "code": "%"}},
+    {"resourceType": "Observation", "id": "a1c-03", "status": "final", "code": {"coding": [{"system": "http://loinc.org", "code": "4548-4"}]}, "effectiveDateTime": "2024-01-01T02:00:00Z", "valueQuantity": {"value": 9.0, "unit": "%", "system": "http://unitsofmeasure.org", "code": "%"}},
+    {"resourceType": "Observation", "id": "a1c-04", "status": "amended", "code": {"coding": [{"system": "http://loinc.org", "code": "17856-6", "display": "Hemoglobin A1c/Hemoglobin.total in Blood by HPLC"}]}, "effectiveDateTime": "2024-07-02", "valueQuantity": {"value": 8.04, "unit": "%", "system": "http://unitsofmeasure.org", "code": "%"}},
+    {"resourceType": "Observation", "id": "a1c-05", "status": "entered-in-error", "code": {"coding": [{"system": "http://loinc.org", "code": "4548-4"}]}, "effectiveDateTime": "2024-05-05T10:00:00-04:00", "valueQuantity": {"value": 8.01, "unit": "%", "system": "http://unitsofmeasure.org", "code": "%"}},
+    {"resourceType": "Observation", "id": "a1c-06", "status": "preliminary", "code": {"coding": [{"system": "http://loinc.org", "code": "4548-4"}]}, "effectiveDateTime": "2024-10-10T10:00:00-04:00", "valueQuantity": {"value": 9.6, "unit": "%", "system": "http://unitsofmeasure.org", "code": "%"}},
+    {"resourceType": "Observation", "id": "a1c-07", "status": "final", "code": {"coding": [{"system": "http://example.org/fhir/CodeSystem/local-lab", "code": "4548-4", "display": "HGBA1C (local)"}]}, "effectiveDateTime": "2024-08-08T08:00:00-04:00", "valueQuantity": {"value": 8.05, "unit": "%", "system": "http://unitsofmeasure.org", "code": "%"}},
+    {"resourceType": "Observation", "id": "a1c-08", "status": "corrected", "code": {"coding": [{"system": "http://example.org/fhir/CodeSystem/local-lab", "code": "HBA1C"}, {"system": "http://loinc.org", "code": "4548-4"}]}, "effectiveDateTime": "2024-11-20T14:00:00-05:00", "valueQuantity": {"value": 7.95, "unit": "%", "system": "http://unitsofmeasure.org", "code": "%"}},
+    {"resourceType": "Observation", "id": "a1c-09", "status": "final", "code": {"coding": [{"system": "http://loinc.org", "code": "4548-4"}]}, "effectiveDateTime": "2024", "valueQuantity": {"value": 6.8, "unit": "%", "system": "http://unitsofmeasure.org", "code": "%"}},
+    {"resourceType": "Observation", "id": "a1c-10", "status": "final", "code": {"coding": [{"system": "http://loinc.org", "code": "59261-8", "display": "Hemoglobin A1c/Hemoglobin.total in Blood by IFCC protocol"}]}, "effectiveDateTime": "2024-09-09T09:00:00-04:00", "valueQuantity": {"value": 64, "unit": "mmol/mol", "system": "http://unitsofmeasure.org", "code": "mmol/mol"}},
+    {"resourceType": "Observation", "id": "a1c-11", "status": "final", "code": {"coding": [{"code": "4548-4"}]}, "effectiveDateTime": "2024-04-04T12:00:00-04:00", "valueQuantity": {"value": 8.0, "unit": "%", "system": "http://unitsofmeasure.org", "code": "%"}},
+    {"resourceType": "Observation", "id": "a1c-12", "status": "final", "code": {"coding": [{"system": "http://loinc.org", "code": "4548-4"}]}, "effectiveDateTime": "2025-01-01T06:00:00Z", "valueQuantity": {"value": 9.1, "unit": "%", "system": "http://unitsofmeasure.org", "code": "%"}}
+  ],
+  "queries": [
+    {"id": "q1", "query": "Observation?code=http://loinc.org|4548-4,http://loinc.org|17856-6&status=final,amended,corrected&date=ge2024-01-01&date=le2024-12-31",
+     "expected": ["Observation/a1c-01", "Observation/a1c-02", "Observation/a1c-04", "Observation/a1c-08", "Observation/a1c-09"],
+     "rationale": "02 is 2024-12-31 22:00 EST (in). 03 is 2023-12-31 21:00 EST (out). 12 is 2025-01-01 01:00 EST (out). 09 (year 2024) overlaps both bounds. 08 matches via its second coding. 05/06 excluded by status, 07 by system, 10/11 by code/system."},
+    {"id": "q2", "query": "Observation?code=http://loinc.org|4548-4&value-quantity=gt9|http://unitsofmeasure.org|%&status=final,amended,corrected",
+     "expected": ["Observation/a1c-02", "Observation/a1c-12"],
+     "rationale": "gt compares exactly: 9.0 (a1c-03) is not > 9. 06 (9.6) is preliminary. No date filter, so 12 (2025) is returned."},
+    {"id": "q3", "query": "Observation?code=4548-4&value-quantity=8.0",
+     "expected": ["Observation/a1c-05", "Observation/a1c-08", "Observation/a1c-11"],
+     "rationale": "Code without system matches any system (07, 11 included as candidates). '8.0' means [7.95, 8.05): 7.95 in, 8.01 in, 8.0 in, 8.05 out. 04 (8.04) is code 17856-6. No status filter, so entered-in-error 05 is returned."},
+    {"id": "q4", "query": "Observation?code=|4548-4",
+     "expected": ["Observation/a1c-11"],
+     "rationale": "|code matches only codings that have no system."},
+    {"id": "q5", "query": "Observation?code=http://loinc.org|4548-4&date=2024-12-31",
+     "expected": ["Observation/a1c-02"],
+     "rationale": "eq requires containment in the local day [2024-12-31T05:00Z, 2025-01-01T05:00Z). 02 (03:00Z Jan 1) is inside; the year-only 09 is not contained."}
+  ],
+  "traps": {
+    "Observation/a1c-02": ["tz-local-day-boundary"],
+    "Observation/a1c-03": ["tz-local-day-boundary", "exact-comparison-boundary"],
+    "Observation/a1c-04": ["token-or", "quantity-precision-range"],
+    "Observation/a1c-05": ["status-filter-absent"],
+    "Observation/a1c-06": ["status-filter"],
+    "Observation/a1c-07": ["token-system", "quantity-precision-range"],
+    "Observation/a1c-08": ["token-any-coding", "quantity-precision-range"],
+    "Observation/a1c-09": ["partial-date-interval"],
+    "Observation/a1c-10": ["distractor-code"],
+    "Observation/a1c-11": ["token-no-system"],
+    "Observation/a1c-12": ["tz-local-day-boundary"]
+  }
+}
